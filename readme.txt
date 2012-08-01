@@ -27,6 +27,8 @@ Hand-crafted, and made with love, in [Rosolina](http://rosolina.me), Italy.
 
 Based on [Jappix](https://project.jappix.com/) and [Jappix Mini](https://mini.jappix.com/).
 
+You can contrib in [GitHub](https://github.com/camaran/chatme.im-mini)
+
 == Installation ==
 
 This section describes how to install the plugin and get it working.
