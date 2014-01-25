@@ -3,7 +3,7 @@
 Plugin Name: Chatme.im Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for Chatme.im mini a Jabber/XMPP group chat for your WordPress.
-Version: 2.0.1
+Version: 2.0.2
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -26,7 +26,7 @@ Author URI: http://www.chatme.im
 */
 
 //Custom Variables (YOU NOT EDIT)
-$GLOBALS['jappix_url'] = "https://webchat.chatme.im"; 	//jappix installation
+$GLOBALS['jappix_url'] = "https://static.jappix.com"; 	//jappix installation
 $GLOBALS['conference'] = "@conference.chatme.im"; 		//server of conference
 $GLOBALS['chat'] = "chatme.im"; //server of conference
 $GLOBALS['anonymous'] = "anonymous.chatme.im"; 			//Server for anonymous chat
@@ -81,7 +81,7 @@ if ($all || is_user_logged_in()) {
 	$lng = get_option('language');
 	$nickname = get_userdata(get_current_user_id())->user_login;
 	echo "\n".$GLOBALS['style'];
-	echo "\n".'<script type="text/javascript" src="'.$GLOBALS['jappix_url'].'/php/get.php?l='.$lng.'&amp;t=js&amp;g=mini.xml'.$jquery.'"></script>
+	echo "\n".'<script type="text/javascript" src="'.$GLOBALS['jappix_url'].'/server/get.php?l='.$lng.'&amp;t=js&amp;g=mini.xml'.$jquery.'"></script>
 
 <script type="text/javascript">
 /* <![CDATA[ */
