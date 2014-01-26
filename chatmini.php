@@ -26,7 +26,7 @@ Author URI: http://www.chatme.im
 */
 
 //Custom Variables (YOU NOT EDIT)
-$GLOBALS['jappix_url'] = "http://beta.webchat.chatme.im"; 	//jappix installation
+$GLOBALS['jappix_url'] = "https://webchat.chatme.im"; 	//jappix installation
 $GLOBALS['conference'] = "@conference.chatme.im"; 		//server of conference
 $GLOBALS['chat'] = "chatme.im"; //server of conference
 $GLOBALS['anonymous'] = "anonymous.chatme.im"; 			//Server for anonymous chat
