@@ -3,7 +3,7 @@
 Plugin Name: Chatme.im Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for Chatme.im mini a Jabber/XMPP group chat for your WordPress.
-Version: 2.0.3
+Version: 2.0.4
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -26,7 +26,7 @@ Author URI: http://www.chatme.im
 */
 
 //Custom Variables (YOU NOT EDIT)
-$GLOBALS['jappix_url'] = "https://webchat.chatme.im"; 	//jappix installation
+$GLOBALS['jappix_url'] = "http://beta.webchat.chatme.im"; 	//jappix installation
 $GLOBALS['conference'] = "@conference.chatme.im"; 		//server of conference
 $GLOBALS['chat'] = "chatme.im"; //server of conference
 $GLOBALS['anonymous'] = "anonymous.chatme.im"; 			//Server for anonymous chat
@@ -81,21 +81,44 @@ if ($all || is_user_logged_in()) {
 	$lng = get_option('language');
 	$nickname = get_userdata(get_current_user_id())->user_login;
 	echo "\n".$GLOBALS['style'];
-	echo "\n".'<script type="text/javascript" src="'.$GLOBALS['jappix_url'].'/php/get.php?l='.$lng.'&amp;t=js&amp;g=mini.xml'.$jquery.'"></script>
-
+	echo "\n".'
 <script type="text/javascript">
 /* <![CDATA[ */
    var $jappix = jQuery.noConflict();
-   $jappix(document).ready(function() {
-   	  MINI_SUGGEST_GROUPCHATS = ["piazza@conference.chatme.im","support@conference.chatme.im"];
-      MINI_SUGGEST_CHATS = ["'.$admin_site.'"];
-      MINI_GROUPCHATS = ['.$group.'];
-      MINI_RESOURCE = "'.$GLOBALS['resource'].'";
-      MINI_ANIMATE = '.$animate.';
-      MINI_NICKNAME = "'.$nickname.'";
-      MINI_ERROR_LINK = "http://chatme.im/forum";
-      launchMini('.$auto_login.', '.$auto_show.', "'.$GLOBALS['anonymous'].'");
-   });
+   $jappix.ajaxSetup({ cache: true });
+   $jappix.getScript("'.$GLOBALS['jappix_url'].'/server/get.php?l=it&t=js&g=mini.xml'.$jquery.'", function() {
+JappixMini.launch({
+        connection: {
+           domain: "anonymous.chatme.im",
+		   resource: "'.$GLOBALS['resource'].'",
+        },
+
+        application: {
+           network: {
+              autoconnect: false,
+           },
+
+           interface: {
+              showpane: true,
+              animate: '.$animate.',
+           },
+
+           user: {
+              random_nickname: false,
+			  nickname: "'.$nickname.'",
+           },
+
+           chat: {
+              suggest: ["'.$admin_site.'"],
+           },
+
+           groupchat: {
+              open: ['.$group.'],
+              suggest: ["piazza@conference.chatme.im","support@conference.chatme.im"],
+           },
+        },
+     });
+  });
 /* ]]> */ 
 </script>';
 }
@@ -172,13 +195,13 @@ function mini_jappix_options() {
         <option value="de" <?php selected('de', get_option('language')); ?>>Deutsch</option>
         <option value="en" <?php selected('en', get_option('language')); ?>>English</option>
         <option value="eo" <?php selected('eo', get_option('language')); ?>>Esperanto</option>
-        <option value="es" <?php selected('es', get_option('language')); ?>>Español</option>
-        <option value="fr" <?php selected('fr', get_option('language')); ?>>Français</option>
+        <option value="es" <?php selected('es', get_option('language')); ?>>EspaÃ±ol</option>
+        <option value="fr" <?php selected('fr', get_option('language')); ?>>FranÃ§ais</option>
         <option value="it" <?php selected('it', get_option('language')); ?>>Italiano</option>
-        <option value="ja" <?php selected('ja', get_option('language')); ?>>日本語</option>
+        <option value="ja" <?php selected('ja', get_option('language')); ?>>æ—¥æœ¬èªž</option>
         <option value="nl" <?php selected('nl', get_option('language')); ?>>Nederlands</option>
         <option value="pl" <?php selected('pl', get_option('language')); ?>>Polski</option>
-        <option value="ru" <?php selected('ru', get_option('language')); ?>>Русский</option>
+        <option value="ru" <?php selected('ru', get_option('language')); ?>>Ð ÑƒÑÑÐºÐ¸Ð¹</option>
         <option value="sv" <?php selected('sv', get_option('language')); ?>>Svenska</option>
         <option value="hu" <?php selected('hu', get_option('language')); ?>>Hungarian</option>
         </select>
@@ -196,7 +219,7 @@ function mini_jappix_options() {
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="8CTUY8YDK5SEL">
-<input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal — The safer, easier way to pay online.">
+<input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal â€” The safer, easier way to pay online.">
 <img alt="" border="0" src="https://www.paypalobjects.com/it_IT/i/scr/pixel.gif" width="1" height="1">
 </form>
 </div>
