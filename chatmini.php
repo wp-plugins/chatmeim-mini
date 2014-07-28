@@ -3,19 +3,20 @@
 Plugin Name: Chatme.im Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for Chatme.im mini a Jabber/XMPP group chat for your WordPress.
-Version: 2.0.8
+Version: 2.1.0
 Author: camaran
 Author URI: http://www.chatme.im
 */
 
 //Custom Variables (YOU NOT EDIT)
-$GLOBALS['jappix_url'] 		= "https://webchat.chatme.im"; 	//jappix installation
-$GLOBALS['conference'] 		= "@conference.chatme.im"; 		//server of conference
-$GLOBALS['chat'] 			= "chatme.im"; //server of conference
-$GLOBALS['anonymous'] 		= "anonymous.chatme.im"; 			//Server for anonymous chat
-$GLOBALS['resource'] 		= $_SERVER['SERVER_NAME']; 		//resource for chat
-$GLOBALS['default_room'] 	= "piazza"; 					//default room
-$GLOBALS['style'] 			= "<style type=\"text/css\">#jappix_popup { z-index:99999 !important }</style>"; //Style theme compatibility 
+$GLOBALS['jappix_url'] 				= "https://webchat.chatme.im"; 														//jappix installation
+$GLOBALS['jappix_url_hosted'] 		= "https://webchat.domains"; 														//jappix installation for hosted domains
+$GLOBALS['conference'] 				= "@conference.chatme.im"; 															//server of conference
+$GLOBALS['chat'] 					= "chatme.im"; 																		//server of conference
+$GLOBALS['anonymous'] 				= "anonymous.chatme.im"; 															//Server for anonymous chat
+$GLOBALS['resource'] 				= $_SERVER['SERVER_NAME']; 															//resource for chat
+$GLOBALS['default_room'] 			= "piazza"; 																		//default room
+$GLOBALS['style'] 					= "<style type=\"text/css\">#jappix_popup { z-index:99999 !important }</style>"; 	//Style theme compatibility 
 
 add_action('wp_head', 'get_chatme_mini');
 add_action('admin_menu', 'chatme_mini_menu');
@@ -35,6 +36,7 @@ function get_chatme_mini() {
 	$lng = get_option('language') ?: 'en';
 	$admin_site = (get_option('admin_site') == '') ? 'admin@chatme.im' : get_option('admin_site') . "@" . $GLOBALS['chat'];
 	$jquery = (get_option('yet_jquery') != 1) ? '&amp;f=jquery.js' : '';
+	$url = (get_option('hosted') == 1) ? $GLOBALS['jappix_url_hosted']  : $GLOBALS['jappix_url'] ; 
 	
 	if(get_option('all') == 1 || get_option('all') == '')
 		$all = true;
@@ -60,7 +62,7 @@ function get_chatme_mini() {
 /* <![CDATA[ */
    var $jappix = jQuery.noConflict();
    $jappix.ajaxSetup({ cache: false });
-   $jappix.getScript("'.$GLOBALS['jappix_url'].'/server/get.php?l=it&t=js&g=mini.xml'.$jquery.'", function() {
+   $jappix.getScript("' . $url . '/server/get.php?l=it&t=js&g=mini.xml'.$jquery.'", function() {
 JappixMini.launch({
         connection: {
            domain: "anonymous.chatme.im",
@@ -99,11 +101,12 @@ JappixMini.launch({
 }
 
 function chatme_mini_menu() {
-  add_options_page('Chatme.im Mini Options', 'Chatme.im Mini', 'manage_options', 'my-unique-identifier', 'mini_jappix_options');
+  add_options_page('Chatme.im Mini Options', 'Chatme.im Mini', 'manage_options', 'chatme-mini', 'mini_jappix_options');
 }
 
 function register_mysettings() {
 	//register our settings
+	register_setting('mini_chat', 'hosted');	
 	register_setting('mini_chat', 'yet_jquery');
 	register_setting('mini_chat', 'language');
 	register_setting('mini_chat', 'auto_login');
@@ -127,6 +130,11 @@ function mini_jappix_options() {
 <form method="post" action="options.php">
     <?php settings_fields( 'mini_chat' ); ?>
     <table class="form-table">
+        <tr valign="top">
+        <th scope="row"><?php _e("It is a ChatMe Hosted Domains?", 'chatmini'); ?></th>
+        <td><input type="checkbox" name="hosted" value="1" <?php checked('1', get_option('hosted')); ?> /> Yes</td>
+        </tr>
+            
         <tr valign="top">
         <th scope="row"><?php _e("Auto login to the account", 'chatmini'); ?></th>
         <td><input type="checkbox" name="auto_login" value="true" <?php checked('true', get_option('auto_login')); ?> /></td>
@@ -169,13 +177,13 @@ function mini_jappix_options() {
         <option value="de" <?php selected('de', get_option('language')); ?>>Deutsch</option>
         <option value="en" <?php selected('en', get_option('language')); ?>>English</option>
         <option value="eo" <?php selected('eo', get_option('language')); ?>>Esperanto</option>
-        <option value="es" <?php selected('es', get_option('language')); ?>>EspaÃ±ol</option>
-        <option value="fr" <?php selected('fr', get_option('language')); ?>>FranÃ§ais</option>
+        <option value="es" <?php selected('es', get_option('language')); ?>>Español</option>
+        <option value="fr" <?php selected('fr', get_option('language')); ?>>Français</option>
         <option value="it" <?php selected('it', get_option('language')); ?>>Italiano</option>
-        <option value="ja" <?php selected('ja', get_option('language')); ?>>æ—¥æœ¬èªž</option>
+        <option value="ja" <?php selected('ja', get_option('language')); ?>>日本語</option>
         <option value="nl" <?php selected('nl', get_option('language')); ?>>Nederlands</option>
         <option value="pl" <?php selected('pl', get_option('language')); ?>>Polski</option>
-        <option value="ru" <?php selected('ru', get_option('language')); ?>>Ð ÑƒÑÑÐºÐ¸Ð¹</option>
+        <option value="ru" <?php selected('ru', get_option('language')); ?>>� усский</option>
         <option value="sv" <?php selected('sv', get_option('language')); ?>>Svenska</option>
         <option value="hu" <?php selected('hu', get_option('language')); ?>>Hungarian</option>
         </select>
@@ -193,7 +201,7 @@ function mini_jappix_options() {
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="8CTUY8YDK5SEL">
-<input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal â€” The safer, easier way to pay online.">
+<input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal — The safer, easier way to pay online.">
 <img alt="" border="0" src="https://www.paypalobjects.com/it_IT/i/scr/pixel.gif" width="1" height="1">
 </form>
 </div>
