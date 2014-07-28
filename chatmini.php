@@ -3,41 +3,23 @@
 Plugin Name: Chatme.im Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for Chatme.im mini a Jabber/XMPP group chat for your WordPress.
-Version: 2.0.6
+Version: 2.0.7
 Author: camaran
 Author URI: http://www.chatme.im
 */
 
-/*  Copyright 2012  Thomas Camaran  (email : camaran@gmail.com)
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
 //Custom Variables (YOU NOT EDIT)
-$GLOBALS['jappix_url'] = "https://webchat.chatme.im"; 	//jappix installation
-$GLOBALS['conference'] = "@conference.chatme.im"; 		//server of conference
-$GLOBALS['chat'] = "chatme.im"; //server of conference
-$GLOBALS['anonymous'] = "anonymous.chatme.im"; 			//Server for anonymous chat
-$GLOBALS['resource'] = $_SERVER['SERVER_NAME']; 		//resource for chat
-$GLOBALS['default_room'] = "piazza"; 					//default room
-$GLOBALS['style'] = "<style type=\"text/css\">#jappix_popup { z-index:99999 !important }</style>"; //Style theme compatibility 
+$GLOBALS['jappix_url'] 		= "https://webchat.chatme.im"; 	//jappix installation
+$GLOBALS['conference'] 		= "@conference.chatme.im"; 		//server of conference
+$GLOBALS['chat'] 			= "chatme.im"; //server of conference
+$GLOBALS['anonymous'] 		= "anonymous.chatme.im"; 			//Server for anonymous chat
+$GLOBALS['resource'] 		= $_SERVER['SERVER_NAME']; 		//resource for chat
+$GLOBALS['default_room'] 	= "piazza"; 					//default room
+$GLOBALS['style'] 			= "<style type=\"text/css\">#jappix_popup { z-index:99999 !important }</style>"; //Style theme compatibility 
 
 add_action('wp_head', 'get_chatme_mini');
 add_action('admin_menu', 'chatme_mini_menu');
 add_action('admin_init', 'register_mysettings' );
-
 add_action( 'init', 'my_plugin_init' );
 
 function my_plugin_init() {
@@ -46,46 +28,38 @@ function my_plugin_init() {
 }
 
 function get_chatme_mini() {
+	
+	$auto_login = get_option('auto_login') ?: 'false';
+	$animate = get_option('animate') ?: 'false'; 
+	$auto_show = get_option('auto_show') ?: 'false';
+	$lng = get_option('language') ?: 'en';
+	$admin_site = (get_option('admin_site') == '') ? 'admin@chatme.im' : get_option('admin_site') . "@" . $GLOBALS['chat'];
+	$jquery = (get_option('yet_jquery') != 1) ?: '&amp;f=jquery.js' ;
+	
 	if(get_option('all') == 1 || get_option('all') == '')
 		$all = true;
 	else
 		$all = false;
-if ($all || is_user_logged_in()) {
-	if(get_option('auto_login') == 1)
-		$auto_login = "true";
-	else
-		$auto_login = "false";
-	if(get_option('admin_site') == '')
-		$admin_site = "admin@chatme.im";
-	else
-		$admin_site = get_option('admin_site') . "@" . $GLOBALS['chat'];		
-	if(get_option('animate') == 1)
-		$animate = "true";
-	else
-		$animate = "false";
-	if(get_option('auto_show') == 1)
-		$auto_show = "true";
-	else
-		$auto_show = "false";
-	if(get_option('yet_jquery') != 1)
-		$jquery = "&amp;f=jquery.js";
-	if(get_option('join_groupchats') == '')
-		$join_groupchats = $GLOBALS['default_room'];
-	else
-		$join_groupchats = get_option('join_groupchats');
-	$groups = explode(',', $join_groupchats);
-	foreach ($groups as $value) {
-		$group .= '"'.trim($value) . $GLOBALS['conference'] .'", '; 
-	}
-	$group = substr ($group, 0, -2);
-	$lng = get_option('language');
+	
+	if ($all || is_user_logged_in()) {
+
+		if(get_option('join_groupchats') == '')
+			$join_groupchats = $GLOBALS['default_room'];
+		else
+			$join_groupchats = get_option('join_groupchats');
+			$groups = explode(',', $join_groupchats);
+				foreach ($groups as $value) {
+					$group .= '"'.trim($value) . $GLOBALS['conference'] .'", '; 
+		}
+					
+	$group = substr ($group, 0, -2);	
 	$nickname = get_userdata(get_current_user_id())->user_login;
 	echo "\n".$GLOBALS['style'];
 	echo "\n".'
 <script type="text/javascript">
 /* <![CDATA[ */
    var $jappix = jQuery.noConflict();
-   $jappix.ajaxSetup({ cache: true });
+   $jappix.ajaxSetup({ cache: false });
    $jappix.getScript("'.$GLOBALS['jappix_url'].'/server/get.php?l=it&t=js&g=mini.xml'.$jquery.'", function() {
 JappixMini.launch({
         connection: {
@@ -155,17 +129,17 @@ function mini_jappix_options() {
     <table class="form-table">
         <tr valign="top">
         <th scope="row"><?php _e("Auto login to the account", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="auto_login" value="1" <?php checked('1', get_option('auto_login')); ?> /></td>
+        <td><input type="checkbox" name="auto_login" value="true" <?php checked('true', get_option('auto_login')); ?> /></td>
         </tr>
 		
 		<tr valign="top">
         <th scope="row"><?php _e("Auto show the opened chat", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="auto_show" value="1" <?php checked('1', get_option('auto_show')); ?> /></td>
+        <td><input type="checkbox" name="auto_show" value="true" <?php checked('true', get_option('auto_show')); ?> /></td>
         </tr>
 
 		<tr valign="top">
         <th scope="row"><?php _e("Display an animated image when the user is not connected", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="animate" value="1" <?php checked('1', get_option('animate')); ?> /></td>
+        <td><input type="checkbox" name="animate" value="true" <?php checked('true', get_option('animate')); ?> /></td>
         </tr>
 		
 		<tr valign="top">
