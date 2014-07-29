@@ -1,16 +1,16 @@
-=== Chatme.im Mini ===
+=== ChatMe Mini ===
 Contributors: camaran
 Donate link: http://www.chatme.im
-Tags: chat, jabber, jappix, mini, xmpp
+Tags: chat, jabber, jappix, mini, xmpp, chatme
 Requires at least: 3.8
 Tested up to: 4.0
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 
-This plugin add the javascript code for Chatme.im mini a Jabber/XMPP group chat for your WordPress.
+This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress.
 
 == Description ==
 
-This plugin add the javascript code for Chatme.im mini a Jabber/XMPP group chat for your WordPress. 
+This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress. 
 It's a facebook-like chat based on Jabber/XMPP.
 
 For more information, check out [chatme.im](http://chatme.im/) and [webchat](https://webchat.chatme.im/).
@@ -26,8 +26,6 @@ Special Thanks:
 Hand-crafted, and made with love, in [Rosolina](http://rosolina.me), Italy.
 
 Based on [Jappix](https://project.jappix.com/) and [Jappix Mini](https://mini.jappix.com/).
-
-Available also on [GitHub](https://github.com/camaran/chatme.im-mini)
 
 For Every request visit our [Forum](http://chatme.im/forums) 
 
@@ -64,6 +62,9 @@ Yes!!! it's a Jabber/XMPP server, you see [here](http://chatme.im/prima-connessi
 2. The chat admin panel
 
 == Changelog ==
+
+= 2.1.2 =
+* Renamed
 
 = 2.1.1 = 
 * Hosted host fixed
@@ -164,6 +165,9 @@ Yes!!! it's a Jabber/XMPP server, you see [here](http://chatme.im/prima-connessi
 * First public version
 
 == Upgrade Notice ==
+
+= 2.1.2 =
+* Renamed
 
 = 2.1.1 = 
 * Hosted host fixed
