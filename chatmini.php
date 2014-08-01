@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 /*
 Plugin Name: ChatMe Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress.
-Version: 2.2.1
+Version: 2.2.2
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -37,6 +37,7 @@ function get_chatme_mini() {
 	$admin_site = (get_option('admin_site') == '') ? 'admin@chatme.im' : get_option('admin_site') . "@" . $GLOBALS['chat'];
 	$jquery = (get_option('yet_jquery') != 1) ? '&amp;f=jquery.js' : '';
 	$url = (filter_var(get_option('custom'),FILTER_VALIDATE_URL)) ? get_option('custom') : ((get_option('hosted') == 1) ? $GLOBALS['jappix_url_hosted'] : $GLOBALS['jappix_url']); 
+	$server = (filter_var(get_option('custom'),FILTER_VALIDATE_URL)) ? get_option('custom-server') : "anonymous.chatme.im";
 	
 	if(get_option('all') == 1 || get_option('all') == '')
 		$all = true;
@@ -65,7 +66,7 @@ function get_chatme_mini() {
    $jappix.getScript("' . $url . '/server/get.php?l=it&t=js&g=mini.xml'.$jquery.'", function() {
 JappixMini.launch({
         connection: {
-           domain: "anonymous.chatme.im",
+           domain: "'.$server.'",
 		   resource: "'.$GLOBALS['resource'].'",
         },
 
@@ -106,6 +107,8 @@ function chatme_mini_menu() {
 
 function register_mysettings() {
 	//register our settings
+	register_setting('mini_chat', 'custom');
+	register_setting('mini_chat', 'custom-server');
 	register_setting('mini_chat', 'hosted');	
 	register_setting('mini_chat', 'yet_jquery');
 	register_setting('mini_chat', 'language');
@@ -133,7 +136,12 @@ function chatme_mini_options() {
 
 		<tr valign="top">
         <th scope="row"><?php _e("Insert a custom Jappix Installation url", 'chatmini'); ?></th>
-        <td><input type="text" name="custom" value="<?php echo get_option('jcustom'); ?>" /> /server/get.php...<br/><?php _e("Insert your Jappix installation URL", 'chatmini'); ?></td>
+        <td><input type="text" name="custom" value="<?php echo get_option('custom'); ?>" /> /server/get.php...<br/><?php _e("Insert your Jappix installation URL", 'chatmini'); ?></td>
+        </tr>
+
+		<tr valign="top">
+        <th scope="row"><?php _e("Insert your custom anonymous server", 'chatmini'); ?></th>
+        <td><input type="text" name="custom-server" value="<?php echo get_option('custom-server'); ?>" /><br/><?php _e("Work only with a custom Jappix installation", 'chatmini'); ?></td>
         </tr>
 
         <tr valign="top">
