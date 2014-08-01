@@ -3,7 +3,7 @@
 Plugin Name: ChatMe Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress.
-Version: 2.2.0
+Version: 2.2.1
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -130,6 +130,12 @@ function chatme_mini_options() {
 <form method="post" action="options.php">
     <?php settings_fields( 'mini_chat' ); ?>
     <table class="form-table">
+
+		<tr valign="top">
+        <th scope="row"><?php _e("Insert a custom Jappix Installation url", 'chatmini'); ?></th>
+        <td><input type="text" name="custom" value="<?php echo get_option('jcustom'); ?>" /> /server/get.php...<br/><?php _e("Insert your Jappix installation URL", 'chatmini'); ?></td>
+        </tr>
+
         <tr valign="top">
         <th scope="row"><?php _e("It is a ChatMe Hosted Domains?", 'chatmini'); ?></th>
         <td><input type="checkbox" name="hosted" value="1" <?php checked('1', get_option('hosted')); ?> /> Yes</td>
