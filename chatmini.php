@@ -3,20 +3,20 @@
 Plugin Name: ChatMe Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress.
-Version: 2.2.2
+Version: 2.2.3
 Author: camaran
 Author URI: http://www.chatme.im
 */
 
 //Custom Variables (YOU NOT EDIT)
-$GLOBALS['jappix_url'] 				= "https://webchat.chatme.im"; 														//jappix installation
-$GLOBALS['jappix_url_hosted'] 		= "http://webchat.domains"; 														//jappix installation for hosted domains
-$GLOBALS['conference'] 				= "@conference.chatme.im"; 															//server of conference
-$GLOBALS['chat'] 					= "chatme.im"; 																		//server of conference
-$GLOBALS['anonymous'] 				= "anonymous.chatme.im"; 															//Server for anonymous chat
-$GLOBALS['resource'] 				= $_SERVER['SERVER_NAME']; 															//resource for chat
-$GLOBALS['default_room'] 			= "piazza"; 																		//default room
-$GLOBALS['style'] 					= "<style type=\"text/css\">#jappix_popup { z-index:99999 !important }</style>"; 	//Style theme compatibility 
+$GLOBALS['jappix_url'] 		= "https://webchat.chatme.im"; 														//jappix installation
+$GLOBALS['jappix_url_hosted'] 	= "http://webchat.domains"; 														//jappix installation for hosted domains
+$GLOBALS['conference'] 		= "@conference.chatme.im"; 															//server of conference
+$GLOBALS['chat'] 		= "chatme.im"; 																		//server of conference
+$GLOBALS['anonymous'] 		= "anonymous.chatme.im"; 															//Server for anonymous chat
+$GLOBALS['resource'] 		= $_SERVER['SERVER_NAME']; 															//resource for chat
+$GLOBALS['default_room'] 	= "piazza"; 																		//default room
+$GLOBALS['style'] 		= "<style type=\"text/css\">#jappix_popup { z-index:99999 !important }</style>"; 	//Style theme compatibility 
 
 add_action('wp_head', 'get_chatme_mini');
 add_action('admin_menu', 'chatme_mini_menu');
