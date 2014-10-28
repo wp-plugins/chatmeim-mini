@@ -1,15 +1,15 @@
-﻿<?php
+<?php
 /*
 Plugin Name: ChatMe Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress.
-Version: 2.2.4
+Version: 2.2.5
 Author: camaran
 Author URI: http://www.chatme.im
 */
 
 //Custom Variables (YOU NOT EDIT)
-$GLOBALS['jappix_url'] 		= "http://webchat.chatme.im"; 														//jappix installation
+$GLOBALS['jappix_url'] 		= "https://webchat.chatme.im"; 														//jappix installation
 $GLOBALS['jappix_url_hosted'] 	= "http://webchat.domains"; 														//jappix installation for hosted domains
 $GLOBALS['conference'] 		= "@conference.chatme.im"; 															//server of conference
 $GLOBALS['chat'] 		= "chatme.im"; 																		//server of conference
@@ -191,13 +191,13 @@ function chatme_mini_options() {
         <option value="de" <?php selected('de', get_option('language')); ?>>Deutsch</option>
         <option value="en" <?php selected('en', get_option('language')); ?>>English</option>
         <option value="eo" <?php selected('eo', get_option('language')); ?>>Esperanto</option>
-        <option value="es" <?php selected('es', get_option('language')); ?>>Español</option>
-        <option value="fr" <?php selected('fr', get_option('language')); ?>>Français</option>
+        <option value="es" <?php selected('es', get_option('language')); ?>>Espa�ol</option>
+        <option value="fr" <?php selected('fr', get_option('language')); ?>>Fran�ais</option>
         <option value="it" <?php selected('it', get_option('language')); ?>>Italiano</option>
-        <option value="ja" <?php selected('ja', get_option('language')); ?>>日本語</option>
+        <option value="ja" <?php selected('ja', get_option('language')); ?>>???</option>
         <option value="nl" <?php selected('nl', get_option('language')); ?>>Nederlands</option>
         <option value="pl" <?php selected('pl', get_option('language')); ?>>Polski</option>
-        <option value="ru" <?php selected('ru', get_option('language')); ?>>� усский</option>
+        <option value="ru" <?php selected('ru', get_option('language')); ?>>  ??????</option>
         <option value="sv" <?php selected('sv', get_option('language')); ?>>Svenska</option>
         <option value="hu" <?php selected('hu', get_option('language')); ?>>Hungarian</option>
         </select>
@@ -215,7 +215,7 @@ function chatme_mini_options() {
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="8CTUY8YDK5SEL">
-<input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal — The safer, easier way to pay online.">
+<input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal � The safer, easier way to pay online.">
 <img alt="" border="0" src="https://www.paypalobjects.com/it_IT/i/scr/pixel.gif" width="1" height="1">
 </form>
 </div>
