@@ -3,7 +3,7 @@
 Plugin Name: ChatMe Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress.
-Version: 3.0.1
+Version: 3.0.2
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -12,11 +12,11 @@ class ChatMe_Mini {
     
 private $jappix_url             = "https://webchat.chatme.im"; 
 private $jappix_url_hosted      = "http://webchat.domains";
-private $conference     	= "@conference.chatme.im";
-private $chat     	        = "chatme.im";
+private $conference     		= "@conference.chatme.im";
+private $chat     	        	= "@chatme.im";
 private $anonymous     	        = "anonymous.chatme.im"; 
 private $default_room           = "piazza"; 
-private $style     	        = "<style type=\"text/css\">#jappix_popup { z-index:99999 !important }</style>";
+private $style     	        	= "<style type=\"text/css\">#jappix_popup { z-index:99999 !important }</style>";
 private $language_dir           = "/languages/";
 private $dlng                   = "en";
 private $adminjid               = "admin@chatme.im";
@@ -35,8 +35,8 @@ private $adminjid               = "admin@chatme.im";
     }
 
     function get_chatme_mini() {
-        global $current_user;
-        $current_user = get_currentuserinfo();
+    global $current_user;
+    get_currentuserinfo();
 	
 	    $auto_login = get_option('auto_login') ?: 'false';
 	    $animate = get_option('animate') ?: 'false'; 
@@ -46,12 +46,9 @@ private $adminjid               = "admin@chatme.im";
 	    $jquery = (get_option('yet_jquery') != 1) ? '&amp;f=jquery.js' : '';
 	    $url = (filter_var(get_option('custom'),FILTER_VALIDATE_URL)) ? get_option('custom') : ((get_option('hosted') == 1) ? $this->jappix_url_hosted : $this->jappix_url); 
 	    $server = (filter_var(get_option('custom'),FILTER_VALIDATE_URL)) ? get_option('custom-server') : $this->anonymous;
+		$nickname = (get_option('auto_login')) ? $current_user->user_login : '';
         $group = "";
-	
-	    if(get_option('all') == 1 || get_option('all') == '')
-		    $all = true;
-	    else
-		    $all = false;
+	    $all = (get_option('all') == 1 || get_option('all') == '') ? true : false;
 	
 	    if ($all || is_user_logged_in()) {
 
@@ -64,7 +61,7 @@ private $adminjid               = "admin@chatme.im";
 					    $group .= '"'.trim($value) . $this->conference .'", '; 
 		    }
 					
-	    $group = substr ($group, 0, -2);	
+	    $group = substr ($group, 0, -2);
 	    echo "\n".$this->style;
 	    echo "\n".'
     <script type="text/javascript">
@@ -90,6 +87,7 @@ private $adminjid               = "admin@chatme.im";
 
                 user: {
                     random_nickname: false,
+                    nickname: "'.$nickname.'",
                 },
 
                 chat: {
@@ -143,12 +141,12 @@ private $adminjid               = "admin@chatme.im";
 
 		<tr valign="top">
         <th scope="row"><?php _e("Insert a custom Jappix Installation url", 'chatmini'); ?></th>
-        <td><input type="text" name="custom" value="<?php echo get_option('custom'); ?>" /> /server/get.php...<br/><?php _e("Insert your Jappix installation URL", 'chatmini'); ?></td>
+        <td><input type="text" name="custom" placeholder="<?php _e("https://webchat.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom'); ?>" /> /server/get.php...<br/><?php _e("Insert your Jappix installation URL", 'chatmini'); ?></td>
         </tr>
 
 		<tr valign="top">
         <th scope="row"><?php _e("Insert your custom anonymous server", 'chatmini'); ?></th>
-        <td><input type="text" name="custom-server" value="<?php echo get_option('custom-server'); ?>" /><br/><?php _e("Work only with a custom Jappix installation", 'chatmini'); ?></td>
+        <td><input type="text" name="custom-server" placeholder="<?php _e("anonymous.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom-server'); ?>" /><br/><?php _e("Work only with a custom Jappix installation", 'chatmini'); ?></td>
         </tr>
 
         <tr valign="top">
@@ -173,12 +171,12 @@ private $adminjid               = "admin@chatme.im";
 		
 		<tr valign="top">
         <th scope="row"><?php _e("Chat rooms to join (if any)", 'chatmini'); ?></th>
-        <td><input type="text" name="join_groupchats" value="<?php echo get_option('join_groupchats'); ?>" /> <?php echo $this->conference; ?><br/><?php _e("For more use comma separator (example: piazza, scuola)", 'chatmini'); ?></td>
+        <td><input type="text" name="join_groupchats" placeholder="<?php _e("piazza", 'chatmini'); ?>" value="<?php echo get_option('join_groupchats'); ?>" /> <?php echo $this->conference; ?><br/><?php _e("For more use comma separator (example: piazza, scuola)", 'chatmini'); ?></td>
         </tr>
         
         <tr valign="top">
 	    <th scope="row"><?php _e("Chat with site admin", 'chatmini'); ?></th>
-	    <td><input type="text" name="admin_site" value="<?php echo get_option('admin_site'); ?>" /> <?php echo $this->chat; ?></td>
+	    <td><input type="text" name="admin_site" placeholder="<?php _e("admin", 'chatmini'); ?>" value="<?php echo get_option('admin_site'); ?>" /> <?php echo $this->chat; ?></td>
 	    </tr>        
 		
 		<tr valign="top">
@@ -222,7 +220,7 @@ private $adminjid               = "admin@chatme.im";
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="8CTUY8YDK5SEL">
-<input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal � The safer, easier way to pay online.">
+<input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal -  The safer, easier way to pay online.">
 <img alt="" border="0" src="https://www.paypalobjects.com/it_IT/i/scr/pixel.gif" width="1" height="1">
 </form>
 </div>
