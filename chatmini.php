@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 /*
 Plugin Name: ChatMe Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress.
-Version: 3.0.2
+Version: 3.1.0
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -27,12 +27,38 @@ private $adminjid               = "admin@chatme.im";
         add_action('admin_init',    array( $this, 'register_mysettings') );
         add_action('init',          array( $this, 'my_plugin_init') );
         $this->resource             = $_SERVER['SERVER_NAME'];
+	add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_action_chatme_mini_links') );
     }
     
     function my_plugin_init() {
         $plugin_dir = basename(dirname(__FILE__));
         load_plugin_textdomain( 'chatmini', null, $plugin_dir . $this->language_dir );
     }
+
+    function add_action_chatme_mini_links ( $links ) {
+    $mylinks = array( '<a href="' . admin_url( 'options-general.php?page=chatme-mini' ) . '">Settings</a>', );
+    return array_merge( $links, $mylinks );
+    }
+
+      	function chatme_mini_add_help_tab () {
+          	$screen = get_current_screen();
+
+          	$screen->add_help_tab( array(
+              	      	'id'		=> 'chatme_mini_help_tab',
+              	      	'title'		=> __('Jappix Installation URL', 'chatmini'),
+              	      	'content'	=> '<p>' . __( 'The URL where your jappix is installed, if you not have one use the standard: http://webchat.chatme.im', 'chatmini' ) . '</p>',
+          	      	) );
+
+          	$screen->add_help_tab( array(
+              	      	'id'		=> 'chatme_mini_help_tab_2',
+              	      	'title'		=> __('anonymous server', 'chatmini'),
+              	      	'content'	=> '<p>' . __( 'The anonymous server of your XMPP service, default: anonymous.chatme.im', 'chatmini' ) . '</p>',
+          	      	) );
+
+          	$screen->set_help_sidebar(
+                              __('<p><strong>Other Resources</strong></p><p><a href="https://jappix.org/" target="_blank">Jappix Official Site</a></p><p><a href="https://github.com/jappix/jappix/wiki" target="_blank">Jappix Official Documentation</a></p><p><a href="http://xmpp.net" target="_blank">XMPP.net</a></p><p><a href="http://chatme.im" target="_blank">ChatMe Site</a></p>', 'chatmini')
+                             );
+      	      	}
 
     function get_chatme_mini() {
     global $current_user;
@@ -107,7 +133,8 @@ private $adminjid               = "admin@chatme.im";
     }
 
     function chatme_mini_menu() {
-        add_options_page('ChatMe Mini Options', 'ChatMe Mini', 'manage_options', 'chatme-mini', array($this, 'chatme_mini_options') );
+        $my_admin_page = add_options_page('ChatMe Mini Options', 'ChatMe Mini', 'manage_options', 'chatme-mini', array($this, 'chatme_mini_options') );
+        add_action('load-'.$my_admin_page, array( $this, 'chatme_mini_add_help_tab') );
     }
 
     function register_mysettings() {
