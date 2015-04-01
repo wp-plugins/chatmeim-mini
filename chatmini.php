@@ -6,6 +6,8 @@ Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP g
 Version: 3.1.1
 Author: camaran
 Author URI: http://www.chatme.im
+Text Domain: chatmini
+Domain Path: /languages/
 */
 
 class ChatMe_Mini {
@@ -36,7 +38,7 @@ private $adminjid               = "admin@chatme.im";
     }
 
     function add_action_chatme_mini_links ( $links ) {
-    $mylinks = array( '<a href="' . admin_url( 'options-general.php?page=chatme-mini' ) . '">Settings</a>', );
+    $mylinks = array( '<a href="' . admin_url( 'options-general.php?page=chatme-mini' ) . '">' . __( 'Settings', 'chatmini' ) . '</a>', );
     return array_merge( $links, $mylinks );
     }
 
@@ -159,7 +161,7 @@ private $adminjid               = "admin@chatme.im";
 ?>
  <div class="wrap">
 <h2>ChatMe Mini</h2>
-<p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'chatmini'); ?> - <a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a></p>
+<p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'chatmini'); ?> - <?php _e('<a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a>', 'chatmini'); ?></p>
 <p><?php _e("For subscribe your account visit <a href='http://chatme.im/servizi/domini-disponibili/' target='_blank'>http://chatme.im/servizi/domini-disponibili/</a>", 'chatmini'); ?></p>
 
 <form method="post" action="options.php">
@@ -178,7 +180,7 @@ private $adminjid               = "admin@chatme.im";
 
         <tr valign="top">
         <th scope="row"><?php _e("It is a ChatMe Hosted Domains?", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="hosted" value="1" <?php checked('1', get_option('hosted')); ?> /> Yes</td>
+        <td><input type="checkbox" name="hosted" value="1" <?php checked('1', get_option('hosted')); ?> /> <?php _e("Yes", 'chatmini'); ?></td>
         </tr>
             
         <tr valign="top">
@@ -223,7 +225,7 @@ private $adminjid               = "admin@chatme.im";
         <option value="de" <?php selected('de', get_option('language')); ?>>Deutsch</option>
         <option value="en" <?php selected('en', get_option('language')); ?>>English</option>
         <option value="eo" <?php selected('eo', get_option('language')); ?>>Esperanto</option>
-        <option value="es" <?php selected('es', get_option('language')); ?>>Espanl</option>
+        <option value="es" <?php selected('es', get_option('language')); ?>>Espanol</option>
         <option value="fr" <?php selected('fr', get_option('language')); ?>>Français</option>
         <option value="it" <?php selected('it', get_option('language')); ?>>Italiano</option>
         <option value="ja" <?php selected('ja', get_option('language')); ?>>Ja</option>
@@ -241,7 +243,7 @@ private $adminjid               = "admin@chatme.im";
     <p class="submit">
     <input type="submit" class="button-primary" value="<?php _e('Save Changes', 'chatmini') ?>" />
     </p>
-    <p>For Ever request you can use our <a href="http://chatme.im/forums" target="_blank">forum</a></p>
+    <p><?php _e('For Ever request you can use our <a href="http://chatme.im/forums" target="_blank">forum</a>', 'chatmini') ?></p>
 
 </form>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
