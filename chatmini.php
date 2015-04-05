@@ -3,7 +3,7 @@
 Plugin Name: ChatMe Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress.
-Version: 3.1.2
+Version: 4.0.0
 Author: camaran
 Author URI: http://www.chatme.im
 Text Domain: chatmini
@@ -22,8 +22,14 @@ private $style     	        	= "<style type=\"text/css\">#jappix_popup { z-index
 private $language_dir           = "/languages/";
 private $dlng                   = "en";
 private $adminjid               = "admin@chatme.im";
+private $jappixMini             = "1.1.3";
+private $jappixStatic           = "/mini/";
+private $jappixBosh             = "https://webchat.chatme.im/http-bind/";
+private $jappixWebsocket        = "wss://webchat.chatme.im/xmpp-websocket/";
+private $errorLink              = "http://chatme.im/forums/";
     
     public function __construct() {
+	add_action('wp_enqueue_scripts', 	array( $this, 'get_chatme_mini_script') );
         add_action('wp_head',       array( $this, 'get_chatme_mini') );
         add_action('admin_menu',    array( $this, 'chatme_mini_menu') );
         add_action('admin_init',    array( $this, 'register_mysettings') );
@@ -37,6 +43,11 @@ private $adminjid               = "admin@chatme.im";
         load_plugin_textdomain( 'chatmini', null, $plugin_dir . $this->language_dir );
     }
 
+	function get_chatme_mini_script() {
+		$jquery = (!(bool)get_option('yet_jquery')) ? 'jquery' : '';
+		wp_enqueue_script( 'chatmeMini', plugins_url( '/mini/javascripts/mini.js', __FILE__ ), array($jquery), $this->jappixMini, false );
+		}
+
     function add_action_chatme_mini_links ( $links ) {
     $mylinks = array( '<a href="' . admin_url( 'options-general.php?page=chatme-mini' ) . '">' . __( 'Settings', 'chatmini' ) . '</a>', );
     return array_merge( $links, $mylinks );
@@ -44,12 +55,6 @@ private $adminjid               = "admin@chatme.im";
 
       	function chatme_mini_add_help_tab () {
           	$screen = get_current_screen();
-
-          	$screen->add_help_tab( array(
-              	      	'id'		=> 'chatme_mini_help_tab',
-              	      	'title'		=> __('Jappix Installation URL', 'chatmini'),
-              	      	'content'	=> '<p>' . __( 'The URL where your jappix is installed, if you not have one use the standard: http://webchat.chatme.im', 'chatmini' ) . '</p>',
-          	      	) );
 
           	$screen->add_help_tab( array(
               	      	'id'		=> 'chatme_mini_help_tab_2',
@@ -71,7 +76,6 @@ private $adminjid               = "admin@chatme.im";
 	    $auto_show = get_option('auto_show') ?: 'false';
 	    $lng = get_option('language') ?: $this->dlng;
 	    $admin_site = (get_option('admin_site') == '') ? $this->adminjid : get_option('admin_site') . "@" . $this->chat;
-	    $jquery = (get_option('yet_jquery') != 1) ? '&amp;f=jquery.js' : '';
 	    $url = (filter_var(get_option('custom'),FILTER_VALIDATE_URL)) ? get_option('custom') : ((get_option('hosted') == 1) ? $this->jappix_url_hosted : $this->jappix_url); 
 	    $server = (filter_var(get_option('custom'),FILTER_VALIDATE_URL)) ? get_option('custom-server') : $this->anonymous;
 		$nickname = (get_option('auto_login')) ? $current_user->user_login : '';
@@ -94,9 +98,16 @@ private $adminjid               = "admin@chatme.im";
 	    echo "\n".'
     <script type="text/javascript">
     /* <![CDATA[ */
-        var $jappix = jQuery.noConflict();
-        $jappix.ajaxSetup({ cache: false });
-        $jappix.getScript("' . $url . '/server/get.php?l=it&t=js&g=mini.xml'.$jquery.'", function() {
+        jQuery.ajaxSetup({cache: true});
+        jQuery(document).ready(function() {
+
+            JAPPIX_STATIC = "' . $this->jappixStatic . '";
+            HOST_BOSH = "' . $this->jappixBosh . '";
+            HOST_WEBSOCKET = "' . $this->jappixWebsocket . '";
+            ANONYMOUS = "on";
+            XML_LANG = "' . $lng . '";
+            MINI_ERROR_LINK = "' . $this->errorLink . '";
+
         JappixMini.launch({
             connection: {
                 domain: "'.$server.'",
@@ -168,20 +179,20 @@ private $adminjid               = "admin@chatme.im";
     <?php settings_fields( 'mini_chat' ); ?>
     <table class="form-table">
 
-		<tr valign="top">
+		<!--<tr valign="top">
         <th scope="row"><?php _e("Insert a custom Jappix Installation url", 'chatmini'); ?></th>
         <td><input type="text" name="custom" placeholder="<?php _e("https://webchat.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom'); ?>" /> /server/get.php...<br/><?php _e("Insert your Jappix installation URL", 'chatmini'); ?></td>
-        </tr>
+        </tr>-->
 
 		<tr valign="top">
         <th scope="row"><?php _e("Insert your custom anonymous server", 'chatmini'); ?></th>
         <td><input type="text" name="custom-server" placeholder="<?php _e("anonymous.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom-server'); ?>" /><br/><?php _e("Work only with a custom Jappix installation", 'chatmini'); ?></td>
         </tr>
 
-        <tr valign="top">
+        <!--<tr valign="top">
         <th scope="row"><?php _e("It is a ChatMe Hosted Domains?", 'chatmini'); ?></th>
         <td><input type="checkbox" name="hosted" value="1" <?php checked('1', get_option('hosted')); ?> /> <?php _e("Yes", 'chatmini'); ?></td>
-        </tr>
+        </tr>-->
             
         <tr valign="top">
         <th scope="row"><?php _e("Auto login to the account", 'chatmini'); ?></th>
@@ -210,7 +221,7 @@ private $adminjid               = "admin@chatme.im";
 		
 		<tr valign="top">
         <th scope="row"><?php _e("jQuery is yet included", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="yet_jquery" value="1" <?php checked('1', get_option('yet_jquery')); ?> /></td>
+        <td><input type="checkbox" name="yet_jquery" value="true" <?php checked('true', get_option('yet_jquery')); ?> /></td>
         </tr>
 
 		<tr valign="top">
@@ -225,8 +236,8 @@ private $adminjid               = "admin@chatme.im";
         <option value="de" <?php selected('de', get_option('language')); ?>>Deutsch</option>
         <option value="en" <?php selected('en', get_option('language')); ?>>English</option>
         <option value="eo" <?php selected('eo', get_option('language')); ?>>Esperanto</option>
-        <option value="es" <?php selected('es', get_option('language')); ?>>Espanol</option>
-        <option value="fr" <?php selected('fr', get_option('language')); ?>>Français</option>
+        <option value="es" <?php selected('es', get_option('language')); ?>>Espa&ntilde;ol</option>
+        <option value="fr" <?php selected('fr', get_option('language')); ?>>Fran&ccedil;ais</option>
         <option value="it" <?php selected('it', get_option('language')); ?>>Italiano</option>
         <option value="ja" <?php selected('ja', get_option('language')); ?>>Ja</option>
         <option value="nl" <?php selected('nl', get_option('language')); ?>>Nederlands</option>
