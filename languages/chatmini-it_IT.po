@@ -1,0 +1,194 @@
+# Copyright (C) 2012 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/chatmeim-mini\n"
+"POT-Creation-Date: 2015-04-01 07:05:26+00:00\n"
+"PO-Revision-Date: 2015-04-01 21:11+0100\n"
+"Last-Translator: Thomas Camaran\n"
+"Language-Team: \n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.5\n"
+
+#: chatmini.php:41
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: chatmini.php:50
+msgid "Jappix Installation URL"
+msgstr "URL dove è installato Jappix"
+
+#: chatmini.php:51
+msgid ""
+"The URL where your jappix is installed, if you not have one use the "
+"standard: http://webchat.chatme.im"
+msgstr ""
+"URL dove jappix è installato, se non ne hai uno usa: http://webchat.chatme.im"
+
+#: chatmini.php:56
+msgid "anonymous server"
+msgstr "server anonimo"
+
+#: chatmini.php:57
+msgid "The anonymous server of your XMPP service, default: anonymous.chatme.im"
+msgstr "Il server anonimo del tuo servizio XMPP, default: anonymous.chatme.im"
+
+#: chatmini.php:61
+msgid ""
+"<p><strong>Other Resources</strong></p><p><a href=\"https://jappix.org/\" "
+"target=\"_blank\">Jappix Official Site</a></p><p><a href=\"https://github."
+"com/jappix/jappix/wiki\" target=\"_blank\">Jappix Official Documentation</"
+"a></p><p><a href=\"http://xmpp.net\" target=\"_blank\">XMPP.net</a></p><p><a "
+"href=\"http://chatme.im\" target=\"_blank\">ChatMe Site</a></p>"
+msgstr ""
+"<p><strong>Altre Risorse</strong></p><p><a href=\"https://jappix.org/\" "
+"target=\"_blank\">Sito Ufficiale Jappix</a></p><p><a href=\"https://github."
+"com/jappix/jappix/wiki\" target=\"_blank\">Documentazione Ufficiale Jappix</"
+"a></p><p><a href=\"http://xmpp.net\" target=\"_blank\">XMPP.net</a></p><p><a "
+"href=\"http://chatme.im\" target=\"_blank\">Sito ChatMe</a></p>"
+
+#: chatmini.php:159
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Non hai sufficienti permessi per accedere a questa pagina."
+
+#: chatmini.php:164
+msgid ""
+"For more information visit <a href='http://www.chatme.im' "
+"target='_blank'>www.chatme.im</a>"
+msgstr ""
+"Per maggiori informazioni visita <a href='http://www.chatme.im' "
+"target='_blank'>www.chatme.im</a>"
+
+#: chatmini.php:164
+msgid ""
+"<a href=\"https://webchat.chatme.im/?r=support\" target=\"_blank\">Support "
+"Chat Room</a>"
+msgstr ""
+"<a href=\"https://webchat.chatme.im/?r=support\" target=\"_blank\">Stanza di "
+"chat di assistenza</a>"
+
+#: chatmini.php:165
+msgid ""
+"For subscribe your account visit <a href='http://chatme.im/servizi/domini-"
+"disponibili/' target='_blank'>http://chatme.im/servizi/domini-disponibili/</"
+"a>"
+msgstr ""
+"Per registrare un account visita <a href='http://chatme.im/servizi/domini-"
+"disponibili/' target='_blank'>http://chatme.im/servizi/domini-disponibili/</"
+"a>"
+
+#: chatmini.php:172
+msgid "Insert a custom Jappix Installation url"
+msgstr "Inserisci URL del tuo Jappix"
+
+#: chatmini.php:173
+msgid "https://webchat.chatme.im"
+msgstr "https://webchat.chatme.im"
+
+#: chatmini.php:173
+msgid "Insert your Jappix installation URL"
+msgstr "Inserisce URL della tua installazione di Jappix"
+
+#: chatmini.php:177
+msgid "Insert your custom anonymous server"
+msgstr "Inserisci un server anonimo personalizzato"
+
+#: chatmini.php:178
+msgid "anonymous.chatme.im"
+msgstr "anonymous.chatme.im"
+
+#: chatmini.php:178
+msgid "Work only with a custom Jappix installation"
+msgstr "Funziona solo con un installazione personalizzata di Jappix"
+
+#: chatmini.php:182
+msgid "It is a ChatMe Hosted Domains?"
+msgstr "Si tratta di un dominio in hosting su ChatMe?"
+
+#: chatmini.php:183
+msgid "Yes"
+msgstr "Si"
+
+#: chatmini.php:187
+msgid "Auto login to the account"
+msgstr "Login automatico all'account"
+
+#: chatmini.php:192
+msgid "Auto show the opened chat"
+msgstr "Mostra automaticamente le chat aperte"
+
+#: chatmini.php:197
+msgid "Display an animated image when the user is not connected"
+msgstr "Mostra un immagine animata quando l'utente non è connesso"
+
+#: chatmini.php:202
+msgid "Chat rooms to join (if any)"
+msgstr "La chat room in cui entrare"
+
+#: chatmini.php:203
+msgid "piazza"
+msgstr "piazza"
+
+#: chatmini.php:203
+msgid "For more use comma separator (example: piazza, scuola)"
+msgstr "Per più di una stanza usa la virgola (esempio: piazza, scuola)"
+
+#: chatmini.php:207
+msgid "Chat with site admin"
+msgstr "Cheta con il gestore del sito"
+
+#: chatmini.php:208
+msgid "admin"
+msgstr "admin"
+
+#: chatmini.php:212
+msgid "jQuery is yet included"
+msgstr "jQuery è già inclusa"
+
+#: chatmini.php:217
+msgid "Available only for logged users"
+msgstr "Disponibile solo per gli utenti loggati"
+
+#: chatmini.php:222
+msgid "Mini Jappix language"
+msgstr "Lingua della Chat Mini"
+
+#: chatmini.php:244
+msgid "Save Changes"
+msgstr "Salva Cambiamenti"
+
+#: chatmini.php:246
+msgid ""
+"For Ever request you can use our <a href=\"http://chatme.im/forums\" target="
+"\"_blank\">forum</a>"
+msgstr ""
+"Per ogni richiesta usa il nostro <a href=\"http://chatme.im/forums\" target="
+"\"_blank\">forum</a>"
+
+#. Plugin Name of the plugin/theme
+msgid "ChatMe Mini"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.chatme.im/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat "
+"for your WordPress."
+msgstr ""
+"Questo plugin aggiungi il codice javascript per ChatMe Mini un client chat "
+"di gruppo Jabber/XMPP per il tuo WordPress"
+
+#. Author of the plugin/theme
+msgid "camaran"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.chatme.im"
+msgstr ""
