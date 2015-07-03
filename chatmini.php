@@ -12,21 +12,22 @@ Domain Path: /languages/
 
 class ChatMe_Mini {
     
-private $jappix_url             = "https://webchat.chatme.im"; 
-private $jappix_url_hosted      = "http://webchat.domains";
-private $conference     		= "@conference.chatme.im";
-private $chat     	        	= "@chatme.im";
-private $anonymous     	        = "anonymous.chatme.im"; 
-private $default_room           = "piazza"; 
-private $style     	        	= "<style type=\"text/css\">#jappix_popup { z-index:99999 !important }</style>";
-private $language_dir           = "/languages/";
-private $dlng                   = "en";
-private $adminjid               = "admin@chatme.im";
-private $jappixMini             = "1.1.4";
-private $errorLink              = "http://chatme.im/forums/";
+private $default = array (
+						'jappix_url' 		=> 'https://webchat.chatme.im',
+						'conference' 		=> '@conference.chatme.im',
+						'chat' 				=> '@chatme.im',
+						'anonymous'			=> 'anonymous.chatme.im',
+						'default_room' 		=> 'piazza',
+						'adminjid'			=> 'admin@chatme.im',
+						'dlng' 				=> 'en',
+						'language_dir'		=> '/languages/',
+						'style'				=> '<style type="text/css">#jappix_popup { z-index:99999 !important }</style>',
+						'auto_login' 		=> 'false',
+	    				'animate' 			=> 'false',
+	    				'auto_show' 		=> 'false',
+						);
     
     public function __construct() {
-	add_action('wp_enqueue_scripts', 	array( $this, 'get_chatme_mini_script') );
         add_action('wp_head',       array( $this, 'get_chatme_mini') );
         add_action('admin_menu',    array( $this, 'chatme_mini_menu') );
         add_action('admin_init',    array( $this, 'register_mysettings') );
@@ -37,13 +38,8 @@ private $errorLink              = "http://chatme.im/forums/";
     
     function my_plugin_init() {
         $plugin_dir = basename(dirname(__FILE__));
-        load_plugin_textdomain( 'chatmini', null, $plugin_dir . $this->language_dir );
+        load_plugin_textdomain( 'chatmini', null, $plugin_dir . $this->default['language_dir'] );
     }
-
-	function get_chatme_mini_script() {
-		$jquery = (!(bool)get_option('yet_jquery')) ? 'jquery' : '';
-		wp_enqueue_script( 'chatmeMini', plugins_url( '/mini/javascripts/mini.js', __FILE__ ), array($jquery), $this->jappixMini, false );
-		}
 
     function add_action_chatme_mini_links ( $links ) {
     $mylinks = array( '<a href="' . admin_url( 'options-general.php?page=chatme-mini' ) . '">' . __( 'Settings', 'chatmini' ) . '</a>', );
@@ -65,33 +61,49 @@ private $errorLink              = "http://chatme.im/forums/";
       	      	}
 
     function get_chatme_mini() {
+		
+		$setting = array(
+						'jappix_url' 		=> get_option('custom'),
+						'anonymous'			=> get_option('custom-server'),
+						'dlng' 				=> get_option('language'),
+						'auto_login' 		=> get_option('auto_login'),
+	    				'animate' 			=> get_option('animate'),
+	    				'auto_show' 		=> get_option('auto_show'),						
+						);
+						
+		foreach( $setting as $k => $settings )
+			if( false == $settings )
+				unset( $setting[$k]);
+						
+		$actual = wp_parse_args( $setting, $this->default );						
+		
     global $current_user;
     get_currentuserinfo();
 	
-	    $auto_login = get_option('auto_login') ?: 'false';
-	    $animate = get_option('animate') ?: 'false'; 
-	    $auto_show = get_option('auto_show') ?: 'false';
-	    $lng = get_option('language') ?: $this->dlng;
-	    $admin_site = (get_option('admin_site') == '') ? $this->adminjid : get_option('admin_site') . "@" . $this->chat;
-	    $url = (filter_var(get_option('custom'),FILTER_VALIDATE_URL)) ? get_option('custom') : ((get_option('hosted') == 1) ? $this->jappix_url_hosted : $this->jappix_url); 
-	    $server = (filter_var(get_option('custom'),FILTER_VALIDATE_URL)) ? get_option('custom-server') : $this->anonymous;
-		$nickname = (get_option('auto_login')) ? $current_user->user_login : '';
+	    $auto_login = $actual['auto_login'];
+	    $animate = $actual['animate']; 
+	    $auto_show = $actual['auto_show'];
+	    $lng = $actual['dlng'];
+	    $admin_site = (get_option('admin_site') == '') ? $this->default['adminjid'] : get_option('admin_site') . "@" . $this->default['chat'];
+	    $url = $actual['jappix_url'];
+	    $server = $actual['anonymous'];
+		$nickname = ($actual['auto_login']) ? $current_user->user_login : '';
         $group = "";
 	    $all = (get_option('all') == 1 || get_option('all') == '') ? true : false;
 	
 	    if ($all || is_user_logged_in()) {
 
 		    if(get_option('join_groupchats') == '')
-			    $join_groupchats = $this->default_room;
+			    $join_groupchats = $this->default['default_room'];
 		    else
 			    $join_groupchats = get_option('join_groupchats');
 			    $groups = explode(',', $join_groupchats);
 				    foreach ($groups as $value) {
-					    $group .= '"'.trim($value) . $this->conference .'", '; 
+					    $group .= '"'.trim($value) . $this->default['conference'] .'", '; 
 		    }
 					
 	    $group = substr ($group, 0, -2);
-	    echo "\n".$this->style;
+	    echo "\n".$this->default['style'];
 	    echo "\n".'
     <script>
     /* <![CDATA[ */
@@ -176,13 +188,8 @@ private $errorLink              = "http://chatme.im/forums/";
 
 		<tr valign="top">
         <th scope="row"><?php _e("Insert your custom anonymous server", 'chatmini'); ?></th>
-        <td><input type="text" name="custom-server" placeholder="<?php _e("anonymous.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom-server'); ?>" /><br/><?php _e("Work only with a custom Jappix installation", 'chatmini'); ?></td>
+        <td><input type="text" name="custom-server" placeholder="<?php _e("anonymous.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom-server'); ?>" /></td>
         </tr>
-
-        <!--<tr valign="top">
-        <th scope="row"><?php _e("It is a ChatMe Hosted Domains?", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="hosted" value="1" <?php checked('1', get_option('hosted')); ?> /> <?php _e("Yes", 'chatmini'); ?></td>
-        </tr>-->
             
         <tr valign="top">
         <th scope="row"><?php _e("Auto login to the account", 'chatmini'); ?></th>
@@ -201,12 +208,12 @@ private $errorLink              = "http://chatme.im/forums/";
 		
 		<tr valign="top">
         <th scope="row"><?php _e("Chat rooms to join (if any)", 'chatmini'); ?></th>
-        <td><input type="text" name="join_groupchats" placeholder="<?php _e("piazza", 'chatmini'); ?>" value="<?php echo get_option('join_groupchats'); ?>" /> <?php echo $this->conference; ?><br/><?php _e("For more use comma separator (example: piazza, scuola)", 'chatmini'); ?></td>
+        <td><input type="text" name="join_groupchats" placeholder="<?php _e("piazza", 'chatmini'); ?>" value="<?php echo get_option('join_groupchats'); ?>" /> <?php echo $this->default['conference']; ?><br/><?php _e("For more use comma separator (example: piazza, scuola)", 'chatmini'); ?></td>
         </tr>
         
         <tr valign="top">
 	    <th scope="row"><?php _e("Chat with site admin", 'chatmini'); ?></th>
-	    <td><input type="text" name="admin_site" placeholder="<?php _e("admin", 'chatmini'); ?>" value="<?php echo get_option('admin_site'); ?>" /> <?php echo $this->chat; ?></td>
+	    <td><input type="text" name="admin_site" placeholder="<?php _e("admin", 'chatmini'); ?>" value="<?php echo get_option('admin_site'); ?>" /> <?php echo $this->default['chat']; ?></td>
 	    </tr>        
 		
 		<tr valign="top">
