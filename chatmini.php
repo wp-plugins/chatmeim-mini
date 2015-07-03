@@ -3,7 +3,7 @@
 Plugin Name: ChatMe Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress.
-Version: 4.1.0
+Version: 4.2.0
 Author: camaran
 Author URI: http://www.chatme.im
 Text Domain: chatmini
@@ -14,10 +14,9 @@ class ChatMe_Mini {
     
 private $default = array (
 						'jappix_url' 		=> 'https://webchat.chatme.im',
-						'conference' 		=> '@conference.chatme.im',
 						'chat' 				=> '@chatme.im',
 						'anonymous'			=> 'anonymous.chatme.im',
-						'default_room' 		=> 'piazza',
+						'default_room' 		=> 'piazza@conference.chatme.im',
 						'adminjid'			=> 'admin@chatme.im',
 						'dlng' 				=> 'en',
 						'language_dir'		=> '/languages/',
@@ -25,6 +24,7 @@ private $default = array (
 						'auto_login' 		=> 'false',
 	    				'animate' 			=> 'false',
 	    				'auto_show' 		=> 'false',
+						'nickname'			=> '',
 						);
     
     public function __construct() {
@@ -42,8 +42,8 @@ private $default = array (
     }
 
     function add_action_chatme_mini_links ( $links ) {
-    $mylinks = array( '<a href="' . admin_url( 'options-general.php?page=chatme-mini' ) . '">' . __( 'Settings', 'chatmini' ) . '</a>', );
-    return array_merge( $links, $mylinks );
+    	$mylinks = array( '<a href="' . admin_url( 'options-general.php?page=chatme-mini' ) . '">' . __( 'Settings', 'chatmini' ) . '</a>', );
+    	return array_merge( $links, $mylinks );
     }
 
       	function chatme_mini_add_help_tab () {
@@ -65,10 +65,12 @@ private $default = array (
 		$setting = array(
 						'jappix_url' 		=> get_option('custom'),
 						'anonymous'			=> get_option('custom-server'),
+						'adminjid'			=> get_option('admin_site'),
 						'dlng' 				=> get_option('language'),
 						'auto_login' 		=> get_option('auto_login'),
 	    				'animate' 			=> get_option('animate'),
-	    				'auto_show' 		=> get_option('auto_show'),						
+	    				'auto_show' 		=> get_option('auto_show'),
+						'default_room' 		=> get_option('join_groupchats'),						
 						);
 						
 		foreach( $setting as $k => $settings )
@@ -77,74 +79,57 @@ private $default = array (
 						
 		$actual = wp_parse_args( $setting, $this->default );						
 		
-    global $current_user;
-    get_currentuserinfo();
-	
-	    $auto_login = $actual['auto_login'];
-	    $animate = $actual['animate']; 
-	    $auto_show = $actual['auto_show'];
-	    $lng = $actual['dlng'];
-	    $admin_site = (get_option('admin_site') == '') ? $this->default['adminjid'] : get_option('admin_site') . "@" . $this->default['chat'];
-	    $url = $actual['jappix_url'];
-	    $server = $actual['anonymous'];
-		$nickname = ($actual['auto_login']) ? $current_user->user_login : '';
-        $group = "";
-	    $all = (get_option('all') == 1 || get_option('all') == '') ? true : false;
-	
-	    if ($all || is_user_logged_in()) {
-
-		    if(get_option('join_groupchats') == '')
-			    $join_groupchats = $this->default['default_room'];
-		    else
-			    $join_groupchats = get_option('join_groupchats');
-			    $groups = explode(',', $join_groupchats);
-				    foreach ($groups as $value) {
-					    $group .= '"'.trim($value) . $this->default['conference'] .'", '; 
-		    }
-					
-	    $group = substr ($group, 0, -2);
-	    echo "\n".$this->default['style'];
-	    echo "\n".'
+	    printf( '%s
+		
     <script>
     /* <![CDATA[ */
         jQuery.ajaxSetup({cache: true});
-        jQuery.getScript("' . $url . '/server/get.php?l=' . $lng . '&t=js&g=mini.xml", function() {
+        jQuery.getScript("%s/server/get.php?l=%s&t=js&g=mini.xml", function() {
 
         JappixMini.launch({
             connection: {
-                domain: "'.$server.'",
+                domain: "%s",
 		        resource: "",
             },
 
             application: {
                 network: {
-                    autoconnect: false,
+                    autoconnect: %s,
                 },
 
                 interface: {
                     showpane: true,
-                    animate: '.$animate.',
+                    animate: %s,
                 },
 
                 user: {
                     random_nickname: false,
-                    nickname: "'.$nickname.'",
+                    nickname: "%s",
                 },
 
                 chat: {
-                    suggest: ["'.$admin_site.'"],
+                    suggest: ["%s"],
                 },
 
                 groupchat: {
-                    open: ['.$group.'],
+                    open: ["%s"],
                     suggest: ["piazza@conference.chatme.im","support@conference.chatme.im"],
                 },
             },
         });
     });
 /* ]]> */ 
-</script>';
-        }
+</script>', 
+			$actual['style'],
+			$actual['jappix_url'],	
+			$actual['dlng'],
+			$actual['anonymous'],
+			$actual['auto_login'],
+			$actual['animate'],
+			$actual['nickname'],
+			$actual['adminjid'],
+			$actual['default_room']
+		);
     }
 
     function chatme_mini_menu() {
@@ -156,14 +141,11 @@ private $default = array (
 	    //register our settings
 	    register_setting('mini_chat', 'custom');
 	    register_setting('mini_chat', 'custom-server');
-	    register_setting('mini_chat', 'hosted');	
-	    register_setting('mini_chat', 'yet_jquery');
 	    register_setting('mini_chat', 'language');
 	    register_setting('mini_chat', 'auto_login');
 	    register_setting('mini_chat', 'auto_show');
 	    register_setting('mini_chat', 'animate');
 	    register_setting('mini_chat', 'join_groupchats');
-	    register_setting('mini_chat', 'all');
 	    register_setting('mini_chat', 'admin_site');
     }
 
@@ -208,18 +190,13 @@ private $default = array (
 		
 		<tr valign="top">
         <th scope="row"><?php _e("Chat rooms to join (if any)", 'chatmini'); ?></th>
-        <td><input type="text" name="join_groupchats" placeholder="<?php _e("piazza", 'chatmini'); ?>" value="<?php echo get_option('join_groupchats'); ?>" /> <?php echo $this->default['conference']; ?><br/><?php _e("For more use comma separator (example: piazza, scuola)", 'chatmini'); ?></td>
+        <td><input type="text" name="join_groupchats" placeholder="<?php _e("piazza@conference.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('join_groupchats'); ?>" /></td>
         </tr>
         
         <tr valign="top">
 	    <th scope="row"><?php _e("Chat with site admin", 'chatmini'); ?></th>
-	    <td><input type="text" name="admin_site" placeholder="<?php _e("admin", 'chatmini'); ?>" value="<?php echo get_option('admin_site'); ?>" /> <?php echo $this->default['chat']; ?></td>
+	    <td><input type="text" name="admin_site" placeholder="<?php _e("admin", 'chatmini'); ?><?php echo $this->default['chat']; ?>" value="<?php echo get_option('admin_site'); ?>" /> </td>
 	    </tr>        
-		
-		<tr valign="top">
-        <th scope="row"><?php _e("jQuery is yet included", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="yet_jquery" value="true" <?php checked('true', get_option('yet_jquery')); ?> /></td>
-        </tr>
 
 		<tr valign="top">
         <th scope="row"><?php _e("Available only for logged users", 'chatmini'); ?></th>
