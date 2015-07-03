@@ -3,7 +3,7 @@
 Plugin Name: ChatMe Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress.
-Version: 4.0.2
+Version: 4.1.0
 Author: camaran
 Author URI: http://www.chatme.im
 Text Domain: chatmini
@@ -22,10 +22,7 @@ private $style     	        	= "<style type=\"text/css\">#jappix_popup { z-index
 private $language_dir           = "/languages/";
 private $dlng                   = "en";
 private $adminjid               = "admin@chatme.im";
-private $jappixMini             = "1.1.3";
-private $jappixStatic           = "/mini/";
-private $jappixBosh             = "https://bind.chatme.im/";
-private $jappixWebsocket        = "wss://ws.chatme.im/";
+private $jappixMini             = "1.1.4";
 private $errorLink              = "http://chatme.im/forums/";
     
     public function __construct() {
@@ -96,17 +93,10 @@ private $errorLink              = "http://chatme.im/forums/";
 	    $group = substr ($group, 0, -2);
 	    echo "\n".$this->style;
 	    echo "\n".'
-    <script type="text/javascript">
+    <script>
     /* <![CDATA[ */
         jQuery.ajaxSetup({cache: true});
-        jQuery(document).ready(function() {
-
-            JAPPIX_STATIC = "' . $this->jappixStatic . '";
-            HOST_BOSH = "' . $this->jappixBosh . '";
-            HOST_WEBSOCKET = "' . $this->jappixWebsocket . '";
-            ANONYMOUS = "on";
-            XML_LANG = "' . $lng . '";
-            MINI_ERROR_LINK = "' . $this->errorLink . '";
+        jQuery.getScript("' . $url . '/server/get.php?l=' . $lng . '&t=js&g=mini.xml", function() {
 
         JappixMini.launch({
             connection: {
@@ -179,10 +169,10 @@ private $errorLink              = "http://chatme.im/forums/";
     <?php settings_fields( 'mini_chat' ); ?>
     <table class="form-table">
 
-		<!--<tr valign="top">
+		<tr valign="top">
         <th scope="row"><?php _e("Insert a custom Jappix Installation url", 'chatmini'); ?></th>
         <td><input type="text" name="custom" placeholder="<?php _e("https://webchat.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom'); ?>" /> /server/get.php...<br/><?php _e("Insert your Jappix installation URL", 'chatmini'); ?></td>
-        </tr>-->
+        </tr>
 
 		<tr valign="top">
         <th scope="row"><?php _e("Insert your custom anonymous server", 'chatmini'); ?></th>
