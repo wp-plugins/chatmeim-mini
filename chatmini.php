@@ -3,7 +3,7 @@
 Plugin Name: ChatMe Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress.
-Version: 4.2.1
+Version: 4.2.2
 Author: camaran
 Author URI: http://www.chatme.im
 Text Domain: chatmini
@@ -13,18 +13,18 @@ Domain Path: /languages/
 class ChatMe_Mini {
     
 private $default = array (
-						'jappix_url' 		=> 'https://webchat.chatme.im',
-						'chat' 				=> '@chatme.im',
-						'anonymous'			=> 'anonymous.chatme.im',
-						'default_room' 		=> 'piazza@conference.chatme.im',
-						'adminjid'			=> 'admin@chatme.im',
-						'dlng' 				=> 'en',
-						'language_dir'		=> '/languages/',
-						'style'				=> '<style type="text/css">#jappix_popup { z-index:99999 !important }</style>',
-						'auto_login' 		=> 'false',
-	    				'animate' 			=> 'false',
-	    				'auto_show' 		=> 'false',
-						'nickname'			=> '',
+			'jappix_url' 		=> 'https://webchat.chatme.im',
+			'chat' 			=> '@chatme.im',
+			'anonymous'		=> 'anonymous.chatme.im',
+			'default_room' 		=> 'piazza@conference.chatme.im',
+			'adminjid'		=> 'admin@chatme.im',
+			'dlng' 			=> 'en',
+			'language_dir'		=> '/languages/',
+			'style'			=> '<style type="text/css">#jappix_popup { z-index:99999 !important }</style>',
+			'auto_login' 		=> 'false',
+	    		'animate' 		=> 'false',
+	    		'auto_show' 		=> 'false',
+			'nickname'		=> '',
 						);
     
     public function __construct() {
@@ -63,14 +63,14 @@ private $default = array (
     function get_chatme_mini() {
 		
 		$setting = array(
-						'jappix_url' 		=> esc_url(get_option('custom')),
-						'anonymous'			=> esc_html(get_option('custom-server')),
-						'adminjid'			=> esc_html(get_option('admin_site')),
-						'dlng' 				=> esc_html(get_option('language')),
-						'auto_login' 		=> esc_html(get_option('auto_login')),
-	    				'animate' 			=> esc_html(get_option('animate')),
-	    				'auto_show' 		=> esc_html(get_option('auto_show')),
-						'default_room' 		=> esc_html(get_option('join_groupchats')),						
+				'jappix_url' 		=> esc_url(get_option('custom')),
+				'anonymous'		=> esc_html(get_option('custom-server')),
+				'adminjid'		=> esc_html(get_option('admin_site')),
+				'dlng' 			=> esc_html(get_option('language')),
+				'auto_login' 		=> esc_html(get_option('auto_login')),
+	    			'animate' 		=> esc_html(get_option('animate')),
+	    			'auto_show' 		=> esc_html(get_option('auto_show')),
+				'default_room' 		=> esc_html(get_option('join_groupchats')),						
 						);
 						
 		foreach( $setting as $k => $settings )
@@ -80,7 +80,7 @@ private $default = array (
 		$actual = wp_parse_args( $setting, $this->default );						
 		
 	    printf( '%s
-		
+    <link rel="dns-prefetch" href="%s">			
     <script>
     /* <![CDATA[ */
         jQuery.ajaxSetup({cache: true});
@@ -121,6 +121,7 @@ private $default = array (
 /* ]]> */ 
 </script>', 
 			$actual['style'],
+			$actual['jappix_url'],
 			$actual['jappix_url'],	
 			$actual['dlng'],
 			$actual['anonymous'],
