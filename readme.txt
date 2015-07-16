@@ -53,7 +53,6 @@ For a new chat room you see the video
 1. Download ChatMe Mini.
 2. Upload the 'chatme-mini' directory to your '/wp-content/plugins/' directory, using your favorite method (ftp, sftp, scp, etc...)
 3. Activate ChatMe Mini from your Plugins page.
-4. Visit 'Forums > Add New' and create some forums. (You can always delete these later.)
 4. Click Options from your Plugin page
 
 = Extra =
