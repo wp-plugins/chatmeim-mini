@@ -80,6 +80,9 @@ Yes!!! it's a Jabber/XMPP server, you see [here](http://chatme.im/prima-connessi
 
 == Changelog ==
 
+= 4.2.5 =
+* Available only for logged users or for all users option
+
 = 4.2.4 =
 * Fix fatal error
 
@@ -249,6 +252,9 @@ Yes!!! it's a Jabber/XMPP server, you see [here](http://chatme.im/prima-connessi
 * First public version
 
 == Upgrade Notice ==
+
+= 4.2.5 =
+* Available only for logged users or for all users option
 
 = 4.2.4 =
 * Fix fatal error
