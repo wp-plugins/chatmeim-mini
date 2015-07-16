@@ -3,7 +3,7 @@
 Plugin Name: ChatMe Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress.
-Version: 4.3.0
+Version: 4.3.1
 Author: camaran
 Author URI: http://www.chatme.im
 Text Domain: chatmini
@@ -12,7 +12,7 @@ Domain Path: /languages/
 
 class ChatMe_Mini {
     
-private $default = array (
+private $default = array(
 			'jappix_url' 		=> 'https://webchat.chatme.im',
 			'chat' 			=> '@chatme.im',
 			'anonymous'		=> 'anonymous.chatme.im',
@@ -26,7 +26,7 @@ private $default = array (
 	    		'auto_show' 		=> 'false',
 			'nickname'	    	=> '',
 			'loggedonly'		=> false,
-			'icon'			=> 'https://webchat.chatme.im/app/images/sprites/animate.png'
+			'icon'			=> 'https://webchat.chatme.im/app/images/sprites/animate.png',
 			);
     
     public function __construct() {
@@ -35,7 +35,7 @@ private $default = array (
         add_action('admin_init',    array( $this, 'register_mysettings') );
         add_action('init',          array( $this, 'my_plugin_init') );
         $this->resource             = $_SERVER['SERVER_NAME'];
-	add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_action_chatme_mini_links') );
+	add_filter('plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_action_chatme_mini_links') );
     }
     
     function my_plugin_init() {
@@ -64,7 +64,7 @@ private $default = array (
 
     function get_chatme_mini() {
 
-          	$current_user = wp_get_current_user();
+        $current_user = wp_get_current_user();
 		
 		$setting = array(
 				'jappix_url' 		=> esc_url(get_option('custom')),
@@ -89,7 +89,7 @@ private $default = array (
         
 	if (!$actual['loggedonly'] || is_user_logged_in()) {
         
-	    printf( '
+	$chat = printf( '
     <style type="text/css">
     %s
     #jappix_mini .jm_images_animate { background-image: url(\'%s\') !important; background-repeat: no-repeat;}
@@ -103,7 +103,7 @@ private $default = array (
         JappixMini.launch({
             connection: {
                 domain: "%s",
-		        resource: "",
+		        resource: "%s",
             },
 
             application: {
@@ -140,6 +140,7 @@ private $default = array (
 			$actual['jappix_url'],	
 			$actual['dlng'],
 			$actual['anonymous'],
+            		$this->resource,
 			$actual['auto_login'],
 			$actual['animate'],
 			$actual['nickname'],
@@ -147,6 +148,7 @@ private $default = array (
 			$actual['default_room']
 		);
     }
+    return apply_filters( 'chat_html', $chat );
 	}
 
     function chatme_mini_menu() {
