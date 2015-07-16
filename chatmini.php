@@ -24,8 +24,9 @@ private $default = array (
 			'auto_login' 		=> 'false',
 	    		'animate' 		=> 'false',
 	    		'auto_show' 		=> 'false',
-			'nickname'		=> '',
-						);
+			'nickname'	    	=> '',
+			'loggedonly'		=> false,
+			);
     
     public function __construct() {
         add_action('wp_head',       array( $this, 'get_chatme_mini') );
@@ -73,15 +74,18 @@ private $default = array (
 	    			'animate' 		=> esc_html(get_option('animate')),
 	    			'auto_show' 		=> esc_html(get_option('auto_show')),
 				'default_room' 		=> esc_html(get_option('join_groupchats')),
-				'nickname'		=> $current_user->display_name,								
+				'nickname'		=> $current_user->display_name,	
+				'loggedonly'		=> esc_html(get_option('all')),				
 						);
 						
 		foreach( $setting as $k => $settings )
 			if( false == $settings )
 				unset( $setting[$k]);
 						
-		$actual = wp_parse_args( $setting, $this->default );						
-		
+		$actual = wp_parse_args( $setting, $this->default );
+        
+	if (!$actual['loggedonly'] || is_user_logged_in()) {
+        
 	    printf( '%s
     <link rel="dns-prefetch" href="%s">			
     <script>
@@ -135,6 +139,7 @@ private $default = array (
 			$actual['default_room']
 		);
     }
+	}
 
     function chatme_mini_menu() {
         $my_admin_page = add_options_page('ChatMe Mini Options', 'ChatMe Mini', 'manage_options', 'chatme-mini', array($this, 'chatme_mini_options') );
@@ -142,15 +147,16 @@ private $default = array (
     }
 
     function register_mysettings() {
-	    //register our settings
-	    register_setting('mini_chat', 'custom');
-	    register_setting('mini_chat', 'custom-server');
-	    register_setting('mini_chat', 'language');
-	    register_setting('mini_chat', 'auto_login');
-	    register_setting('mini_chat', 'auto_show');
-	    register_setting('mini_chat', 'animate');
-	    register_setting('mini_chat', 'join_groupchats');
-	    register_setting('mini_chat', 'admin_site');
+	//register our settings
+	register_setting('mini_chat', 'custom');
+	register_setting('mini_chat', 'custom-server');
+	register_setting('mini_chat', 'language');
+	register_setting('mini_chat', 'auto_login');
+	register_setting('mini_chat', 'auto_show');
+	register_setting('mini_chat', 'animate');
+	register_setting('mini_chat', 'join_groupchats');
+	register_setting('mini_chat', 'admin_site');
+        register_setting('mini_chat', 'all');        
     }
 
     function chatme_mini_options() {
@@ -204,7 +210,7 @@ private $default = array (
 
 		<tr valign="top">
         <th scope="row"><?php _e("Available only for logged users", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="all" value="0" <?php checked('0', get_option('all')) ?> /></td>
+        <td><input type="checkbox" name="all" value="true" <?php checked('true', get_option('all')) ?> /></td>
         </tr>
 
         <tr valign="top">
