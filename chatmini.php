@@ -20,12 +20,13 @@ private $default = array (
 			'adminjid'		=> 'admin@chatme.im',
 			'dlng' 			=> 'en',
 			'language_dir'		=> '/languages/',
-			'style'			=> '<style type="text/css">#jappix_popup { z-index:99999 !important }</style>',
+			'style'			=> '#jappix_popup { z-index:99999 !important }',
 			'auto_login' 		=> 'false',
 	    		'animate' 		=> 'false',
 	    		'auto_show' 		=> 'false',
 			'nickname'	    	=> '',
 			'loggedonly'		=> false,
+			'icon'			=> 'https://webchat.chatme.im/app/images/sprites/animate.png'
 			);
     
     public function __construct() {
@@ -75,7 +76,9 @@ private $default = array (
 	    			'auto_show' 		=> esc_html(get_option('auto_show')),
 				'default_room' 		=> esc_html(get_option('join_groupchats')),
 				'nickname'		=> $current_user->display_name,	
-				'loggedonly'		=> esc_html(get_option('all')),				
+				'loggedonly'		=> esc_html(get_option('all')),		
+				'style'			=> esc_html(get_option('style')),	
+				'icon' 			=> esc_url(get_option('icon')),	
 						);
 						
 		foreach( $setting as $k => $settings )
@@ -86,7 +89,11 @@ private $default = array (
         
 	if (!$actual['loggedonly'] || is_user_logged_in()) {
         
-	    printf( '%s
+	    printf( '
+    <style type="text/css">
+    %s
+    #jappix_mini .jm_images_animate { background-image: url(\'%s\') !important; background-repeat: no-repeat;}
+    </style>
     <link rel="dns-prefetch" href="%s">			
     <script>
     /* <![CDATA[ */
@@ -128,6 +135,7 @@ private $default = array (
 /* ]]> */ 
 </script>', 
 			$actual['style'],
+			$actual['icon'],
 			$actual['jappix_url'],
 			$actual['jappix_url'],	
 			$actual['dlng'],
@@ -156,7 +164,9 @@ private $default = array (
 	register_setting('mini_chat', 'animate');
 	register_setting('mini_chat', 'join_groupchats');
 	register_setting('mini_chat', 'admin_site');
-        register_setting('mini_chat', 'all');        
+        register_setting('mini_chat', 'all');
+        register_setting('mini_chat', 'style');
+        register_setting('mini_chat', 'icon');        
     }
 
     function chatme_mini_options() {
@@ -175,7 +185,7 @@ private $default = array (
 
 		<tr valign="top">
         <th scope="row"><?php _e("Insert a custom Jappix Installation url", 'chatmini'); ?></th>
-        <td><input type="text" name="custom" placeholder="<?php _e("https://webchat.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom'); ?>" /> /server/get.php...<br/><?php _e("Insert your Jappix installation URL", 'chatmini'); ?></td>
+        <td><input type="url" size="50 name="custom" placeholder="<?php _e("https://webchat.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom'); ?>" /> /server/get.php...<br/><?php _e("Insert your Jappix installation URL", 'chatmini'); ?></td>
         </tr>
 
 		<tr valign="top">
@@ -195,7 +205,9 @@ private $default = array (
 
 		<tr valign="top">
         <th scope="row"><?php _e("Display an animated image when the user is not connected", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="animate" value="true" <?php checked('true', get_option('animate')); ?> /></td>
+        <td><input type="checkbox" name="animate" value="true" <?php checked('true', get_option('animate')); ?> /><br />
+	<input type="url" size="50" name="icon" placeholder="<?php _e("Custom Icon URL", 'chatmini'); ?>" value="<?php echo get_option('icon'); ?>" /><br/><?php _e("Insert your custom icon url, default: https://webchat.chatme.im/app/images/sprites/animate.png size: 80x74 px", 'chatmini'); ?>
+	</td>
         </tr>
 		
 		<tr valign="top">
@@ -231,6 +243,11 @@ private $default = array (
         <option value="hu" <?php selected('hu', get_option('language')); ?>>Hungarian</option>
         </select>
         </td>
+        </tr>
+
+	<tr valign="top">
+        	<th scope="row"><?php _e('Custom Style', 'conversejs'); ?></th>
+        	<td><textarea name="style" rows="4" cols="50"><?php echo esc_html(get_option('style')); ?></textarea></td>
         </tr>
 
     </table>
