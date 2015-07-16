@@ -61,6 +61,8 @@ private $default = array (
       	      	}
 
     function get_chatme_mini() {
+
+          	$screen = get_current_screen();
 		
 		$setting = array(
 				'jappix_url' 		=> esc_url(get_option('custom')),
@@ -70,7 +72,8 @@ private $default = array (
 				'auto_login' 		=> esc_html(get_option('auto_login')),
 	    			'animate' 		=> esc_html(get_option('animate')),
 	    			'auto_show' 		=> esc_html(get_option('auto_show')),
-				'default_room' 		=> esc_html(get_option('join_groupchats')),						
+				'default_room' 		=> esc_html(get_option('join_groupchats')),
+				'nickname'		=> $current_user->display_name,								
 						);
 						
 		foreach( $setting as $k => $settings )
