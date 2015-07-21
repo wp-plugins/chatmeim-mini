@@ -10,7 +10,8 @@ Text Domain: chatmini
 Domain Path: /languages/
 */
 
-class ChatMe_Mini {
+namespace ChatMe;
+class Mini {
     
 private $default = array(
 			'jappix_url' 		=> 'https://webchat.chatme.im',
@@ -271,5 +272,5 @@ private $default = array(
 <?php 
     }
 } 
-new ChatMe_Mini;
+new \ChatMe\Mini;
 ?>
