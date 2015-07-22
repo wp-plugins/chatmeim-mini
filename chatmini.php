@@ -14,7 +14,7 @@ namespace ChatMe;
 class Mini {
     
 private $default = array(
-			'jappix_url' 		=> 'https://webchat.chatme.im',
+    		'jappix_url' 		=> 'https://webchat.chatme.im',
 			'chat' 			=> '@chatme.im',
 			'anonymous'		=> 'anonymous.chatme.im',
 			'default_room' 		=> 'piazza@conference.chatme.im',
@@ -155,7 +155,7 @@ private $default = array(
 	}
 
     function chatme_mini_menu() {
-        $my_admin_page = add_options_page('ChatMe Mini Options', 'ChatMe Mini', 'manage_options', $this->default['plugin_options_key'], array($this, 'chatme_mini_options') );
+        $my_admin_page = add_options_page( __('ChatMe Mini Options', 'chatmini'), __('ChatMe Mini', 'chatmini'), 'manage_options', $this->default['plugin_options_key'], array($this, 'chatme_mini_options') );
         add_action('load-'.$my_admin_page, array( $this, 'chatme_mini_add_help_tab') );
     }
 
