@@ -28,6 +28,7 @@ private $default = array(
 			'nickname'	    	=> '',
 			'loggedonly'		=> false,
 			'icon'			=> 'https://webchat.chatme.im/app/images/sprites/animate.png',
+			'plugin_options_key'	=> 'chatme-mini',
 			);
     
     public function __construct() {
@@ -45,7 +46,7 @@ private $default = array(
     }
 
     function add_action_chatme_mini_links ( $links ) {
-    	$mylinks = array( '<a href="' . admin_url( 'options-general.php?page=chatme-mini' ) . '">' . __( 'Settings', 'chatmini' ) . '</a>', );
+    	$mylinks = array( '<a href="' . admin_url( 'options-general.php?page=' . $this->default['plugin_options_key'] ) . '">' . __( 'Settings', 'chatmini' ) . '</a>', );
     	return array_merge( $links, $mylinks );
     }
 
@@ -154,7 +155,7 @@ private $default = array(
 	}
 
     function chatme_mini_menu() {
-        $my_admin_page = add_options_page('ChatMe Mini Options', 'ChatMe Mini', 'manage_options', 'chatme-mini', array($this, 'chatme_mini_options') );
+        $my_admin_page = add_options_page('ChatMe Mini Options', 'ChatMe Mini', 'manage_options', $this->default['plugin_options_key'], array($this, 'chatme_mini_options') );
         add_action('load-'.$my_admin_page, array( $this, 'chatme_mini_add_help_tab') );
     }
 
