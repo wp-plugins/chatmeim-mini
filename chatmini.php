@@ -14,7 +14,7 @@ namespace ChatMe;
 class Mini {
     
 private $default = array(
-    		'jappix_url' 		=> 'https://webchat.chatme.im',
+    		'jappix_url' 			=> 'https://webchat.chatme.im',
 			'chat' 			=> '@chatme.im',
 			'anonymous'		=> 'anonymous.chatme.im',
 			'default_room' 		=> 'piazza@conference.chatme.im',
@@ -27,8 +27,10 @@ private $default = array(
 	    		'auto_show' 		=> 'false',
 			'nickname'	    	=> '',
 			'loggedonly'		=> false,
-			'icon'			=> 'https://webchat.chatme.im/app/images/sprites/animate.png',
+			'icon'			=> 'https://cdn.chatme.im/wp-content/themes/chatme2/images/chat-mini.png',
 			'plugin_options_key'	=> 'chatme-mini',
+			'mini_error_link' 	=> 'http://chatme.im/forums/?chatmeim-mini',
+			'mini_disable_mobile' 	=> 'false',
 			);
     
     public function __construct() {
@@ -81,6 +83,7 @@ private $default = array(
 				'loggedonly'		=> esc_html(get_option('all')),		
 				'style'			=> esc_html(get_option('style')),	
 				'icon' 			=> esc_url(get_option('icon')),	
+				'mini_disable_mobile' 	=> esc_url(get_option('mini_disable_mobile')),	
 						);
 						
 		foreach( $setting as $k => $settings )
@@ -102,6 +105,8 @@ private $default = array(
     /* <![CDATA[ */
         jQuery.ajaxSetup({cache: true});
         jQuery.getScript("%s/server/get.php?l=%s&t=js&g=mini.xml", function() {
+	MINI_ERROR_LINK = "%s"
+	MINI_DISABLE_MOBILE = %s
 
         JappixMini.launch({
             connection: {
@@ -142,6 +147,8 @@ private $default = array(
 			$actual['jappix_url'],
 			$actual['jappix_url'],	
 			$actual['dlng'],
+			$actual['mini_error_link'],
+			$actual['mini_disable_mobile'],
 			$actual['anonymous'],
             		$this->resource,
 			$actual['auto_login'],
@@ -171,7 +178,8 @@ private $default = array(
 	register_setting('mini_chat', 'admin_site');
         register_setting('mini_chat', 'all');
         register_setting('mini_chat', 'style');
-        register_setting('mini_chat', 'icon');        
+        register_setting('mini_chat', 'icon'); 
+        register_setting('mini_chat', 'mini_disable_mobile');       
     }
 
     function chatme_mini_options() {
@@ -228,6 +236,11 @@ private $default = array(
 		<tr valign="top">
         <th scope="row"><?php _e("Available only for logged users", 'chatmini'); ?></th>
         <td><input type="checkbox" name="all" value="true" <?php checked('true', get_option('all')) ?> /></td>
+        </tr>
+
+		<tr valign="top">
+        <th scope="row"><?php _e("Hide for mobile user", 'chatmini'); ?></th>
+        <td><input type="checkbox" name="mini_disable_mobile" value="true" <?php checked('true', get_option('mini_disable_mobile')) ?> /></td>
         </tr>
 
         <tr valign="top">
