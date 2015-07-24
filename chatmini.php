@@ -83,9 +83,10 @@ class Mini {
 				'default_room' 		=> esc_html(get_option('join_groupchats')),
 				'nickname'		=> $current_user->display_name,	
 				'loggedonly'		=> esc_html(get_option('all')),		
-				'style'			=> esc_html(get_option('style')),	
+				'style'			=> wp_kses(get_option('style'), ''),	
 				'icon' 			=> esc_url(get_option('icon')),	
 				'mini_disable_mobile' 	=> esc_html(get_option('mini_disable_mobile')),	
+				'priority'		=> esc_html(get_option('priority')),
 						);
 						
 		foreach( $setting as $k => $settings )
@@ -184,7 +185,8 @@ class Mini {
         register_setting('mini_chat', 'all');
         register_setting('mini_chat', 'style');
         register_setting('mini_chat', 'icon'); 
-        register_setting('mini_chat', 'mini_disable_mobile');       
+        register_setting('mini_chat', 'mini_disable_mobile');     
+        register_setting('mini_chat', 'priority');     
     }
 
     function chatme_mini_options() {
@@ -249,6 +251,17 @@ class Mini {
         </tr>
 
         <tr valign="top">
+        <th scope="row"><?php _e("Priority", 'chatmini'); ?></th>
+        <td>
+        	<select id="priority" name="priority">
+        		<option value="1" <?php selected('1', get_option('priority')); ?>><?php _e("Low", 'chatmini'); ?></option>
+        		<option value="10" <?php selected('10', get_option('priority')); ?>><?php _e("Medium", 'chatmini'); ?></option>
+        		<option value="100" <?php selected('100', get_option('priority')); ?>><?php _e("Height", 'chatmini'); ?></option>
+       		</select>
+        </td>
+        </tr>
+
+        <tr valign="top">
         <th scope="row"><?php _e("Mini Jappix language", 'chatmini'); ?></th>
         <td>
         <select id="language" name="language">
@@ -270,7 +283,7 @@ class Mini {
 
 	<tr valign="top">
         	<th scope="row"><?php _e('Custom Style', 'conversejs'); ?></th>
-        	<td><textarea name="style" rows="4" cols="50"><?php echo esc_html(get_option('style')); ?></textarea></td>
+        	<td><textarea name="style" rows="4" cols="50"><?php echo wp_kses(get_option('style'),''); ?></textarea></td>
         </tr>
 
     </table>
