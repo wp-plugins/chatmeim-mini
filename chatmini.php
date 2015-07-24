@@ -282,15 +282,12 @@ class Mini {
         </tr>
 
 	<tr valign="top">
-        	<th scope="row"><?php _e('Custom Style', 'conversejs'); ?></th>
-        	<td><textarea name="style" rows="4" cols="50"><?php echo wp_kses(get_option('style'),''); ?></textarea></td>
+        	<th scope="row"><?php _e('Custom Style', 'chatmini'); ?></th>
+        	<td><textarea name="style" rows="4" cols="50"><?php echo wp_kses(get_option('style'),''); ?></textarea><br /> <?php _e('For Advance use try chat_html hook', 'chatmini') ?></td>
         </tr>
 
     </table>
-    
-    <p class="submit">
-    <input type="submit" class="button-primary" value="<?php _e('Save Changes', 'chatmini') ?>" />
-    </p>
+    <?php submit_button(); ?>
     <p><?php _e('For Ever request you can use our <a href="http://chatme.im/forums" target="_blank">forum</a>', 'chatmini') ?></p>
 
 </form>
