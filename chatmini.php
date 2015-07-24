@@ -13,36 +13,38 @@ Domain Path: /languages/
 namespace ChatMe;
 class Mini {
     
-private $default = array(
+        private $default = array(
+    		'chatme_cache' 			=> 'true',
     		'jappix_url' 			=> 'https://webchat.chatme.im',
-			'chat' 			=> '@chatme.im',
-			'anonymous'		=> 'anonymous.chatme.im',
-			'default_room' 		=> 'piazza@conference.chatme.im',
-			'adminjid'		=> 'admin@chatme.im',
-			'dlng' 			=> 'en',
-			'language_dir'		=> '/languages/',
-			'style'			=> '#jappix_popup { z-index:99999 !important }',
-			'auto_login' 		=> 'false',
-	    		'animate' 		=> 'false',
-	    		'auto_show' 		=> 'false',
-			'nickname'	    	=> '',
-			'loggedonly'		=> false,
-			'icon'			=> 'https://cdn.chatme.im/wp-content/themes/chatme2/images/chat-mini.png',
-			'plugin_options_key'	=> 'chatme-mini',
-			'mini_error_link' 	=> 'http://chatme.im/forums/?chatmeim-mini',
+			'chat' 			        => '@chatme.im',
+			'anonymous'		        => 'anonymous.chatme.im',
+			'default_room' 		    => 'piazza@conference.chatme.im',
+			'adminjid'		        => 'admin@chatme.im',
+			'dlng' 			        => 'en',
+			'language_dir'		    => '/languages/',
+			'style'			        => '#jappix_popup { z-index:99999 !important }',
+			'auto_login' 		    => 'false',
+	    	'animate' 		        => 'false',
+	    	'auto_show' 		    => 'false',
+			'nickname'	    	    => '',
+			'loggedonly'		    => false,
+			'icon'			        => 'https://cdn.chatme.im/wp-content/themes/chatme2/images/chat-mini.png',
+			'plugin_options_key'    => 'chatme-mini',
+			'mini_error_link' 	    => 'http://chatme.im/forums/?chatmeim-mini',
 			'mini_disable_mobile' 	=> 'false',
+			'priority'		=> 1,
 			);
-    
+        
     public function __construct() {
-        add_action('wp_head',       array( $this, 'get_chatme_mini') );
-        add_action('admin_menu',    array( $this, 'chatme_mini_menu') );
-        add_action('admin_init',    array( $this, 'register_mysettings') );
-        add_action('init',          array( $this, 'my_plugin_init') );
+        add_action('init',          array( $this, 'chatme_mini_init') );
+        add_action('wp_head',       array( $this, 'chatme_mini_wp_head') );
+        add_action('admin_menu',    array( $this, 'chatme_mini_admin_menu') );
+        add_action('admin_init',    array( $this, 'chatme_mini_admin_init') );
         $this->resource             = $_SERVER['SERVER_NAME'];
 	add_filter('plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_action_chatme_mini_links') );
     }
     
-    function my_plugin_init() {
+    function chatme_mini_init() {
         $plugin_dir = basename(dirname(__FILE__));
         load_plugin_textdomain( 'chatmini', null, $plugin_dir . $this->default['language_dir'] );
     }
@@ -66,7 +68,7 @@ private $default = array(
                              );
       	      	}
 
-    function get_chatme_mini() {
+    function chatme_mini_wp_head() {
 
         $current_user = wp_get_current_user();
 		
@@ -83,7 +85,7 @@ private $default = array(
 				'loggedonly'		=> esc_html(get_option('all')),		
 				'style'			=> esc_html(get_option('style')),	
 				'icon' 			=> esc_url(get_option('icon')),	
-				'mini_disable_mobile' 	=> esc_url(get_option('mini_disable_mobile')),	
+				'mini_disable_mobile' 	=> esc_html(get_option('mini_disable_mobile')),	
 						);
 						
 		foreach( $setting as $k => $settings )
@@ -103,15 +105,14 @@ private $default = array(
     <link rel="dns-prefetch" href="%s">			
     <script>
     /* <![CDATA[ */
-        jQuery.ajaxSetup({cache: true});
+        jQuery.ajaxSetup({cache: %s});
         jQuery.getScript("%s/server/get.php?l=%s&t=js&g=mini.xml", function() {
-	MINI_ERROR_LINK = "%s"
-	MINI_DISABLE_MOBILE = %s
 
         JappixMini.launch({
             connection: {
                 domain: "%s",
-		        resource: "%s",
+		resource: "%s",
+		priority: %s,
             },
 
             application: {
@@ -122,6 +123,8 @@ private $default = array(
                 interface: {
                     showpane: true,
                     animate: %s,
+                    no_mobile: %s,
+                    error_link: "%s",
                 },
 
                 user: {
@@ -145,14 +148,16 @@ private $default = array(
 			$actual['style'],
 			$actual['icon'],
 			$actual['jappix_url'],
+			$actual['chatme_cache'],
 			$actual['jappix_url'],	
 			$actual['dlng'],
-			$actual['mini_error_link'],
-			$actual['mini_disable_mobile'],
 			$actual['anonymous'],
             		$this->resource,
+			$actual['priority'],
 			$actual['auto_login'],
 			$actual['animate'],
+			$actual['mini_disable_mobile'],
+			$actual['mini_error_link'],
 			$actual['nickname'],
 			$actual['adminjid'],
 			$actual['default_room']
@@ -161,12 +166,12 @@ private $default = array(
     return apply_filters( 'chat_html', $chat );
 	}
 
-    function chatme_mini_menu() {
+    function chatme_mini_admin_menu() {
         $my_admin_page = add_options_page( __('ChatMe Mini Options', 'chatmini'), __('ChatMe Mini', 'chatmini'), 'manage_options', $this->default['plugin_options_key'], array($this, 'chatme_mini_options') );
         add_action('load-'.$my_admin_page, array( $this, 'chatme_mini_add_help_tab') );
     }
 
-    function register_mysettings() {
+    function chatme_mini_admin_init() {
 	//register our settings
 	register_setting('mini_chat', 'custom');
 	register_setting('mini_chat', 'custom-server');
