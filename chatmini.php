@@ -205,12 +205,12 @@ class Mini {
 
 		<tr valign="top">
         <th scope="row"><?php _e("Insert a custom Jappix Installation url", 'chatmini'); ?></th>
-        <td><input type="url" size="50" name="custom" placeholder="<?php _e("https://webchat.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom'); ?>" /> /server/get.php...<br/><?php _e("Insert your Jappix installation URL", 'chatmini'); ?></td>
+        <td><input class="regular-text" aria-describedby="custom-description" type="url" size="50" name="custom" placeholder="<?php _e("https://webchat.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom'); ?>" /> /server/get.php...<p class="description" id="custom-description"><?php _e("Insert your Jappix installation URL", 'chatmini'); ?></p></td>
         </tr>
 
 		<tr valign="top">
         <th scope="row"><?php _e("Insert your custom anonymous server", 'chatmini'); ?></th>
-        <td><input type="text" name="custom-server" placeholder="<?php _e("anonymous.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom-server'); ?>" /></td>
+        <td><input class="regular-text" type="text" name="custom-server" placeholder="<?php _e("anonymous.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom-server'); ?>" /></td>
         </tr>
             
         <tr valign="top">
@@ -226,18 +226,18 @@ class Mini {
 		<tr valign="top">
         <th scope="row"><?php _e("Display an animated image when the user is not connected", 'chatmini'); ?></th>
         <td><input type="checkbox" name="animate" value="true" <?php checked('true', get_option('animate')); ?> /><br />
-	<input type="url" size="50" name="icon" placeholder="<?php _e("Custom Icon URL", 'chatmini'); ?>" value="<?php echo get_option('icon'); ?>" /><br/><?php _e("Insert your custom icon url, default: https://webchat.chatme.im/app/images/sprites/animate.png size: 80x74 px", 'chatmini'); ?>
+	<input class="regular-text" aria-describedby="animate-description" type="url" size="50" name="icon" placeholder="<?php _e("Custom Icon URL", 'chatmini'); ?>" value="<?php echo get_option('icon'); ?>" /><p class="description" id="animate-description"><?php _e("Insert your custom icon url, default: https://webchat.chatme.im/app/images/sprites/animate.png size: 80x74 px", 'chatmini'); ?></p>
 	</td>
         </tr>
 		
 		<tr valign="top">
         <th scope="row"><?php _e("Chat rooms to join (if any)", 'chatmini'); ?></th>
-        <td><input type="text" name="join_groupchats" placeholder="<?php _e("piazza@conference.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('join_groupchats'); ?>" /></td>
+        <td><input class="regular-text" type="text" name="join_groupchats" placeholder="<?php _e("piazza@conference.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('join_groupchats'); ?>" /></td>
         </tr>
         
         <tr valign="top">
 	    <th scope="row"><?php _e("Chat with site admin", 'chatmini'); ?></th>
-	    <td><input type="text" name="admin_site" placeholder="<?php _e("admin", 'chatmini'); ?><?php echo $this->default['chat']; ?>" value="<?php echo get_option('admin_site'); ?>" /> </td>
+	    <td><input class="regular-text" type="text" name="admin_site" placeholder="<?php _e("admin", 'chatmini'); ?><?php echo $this->default['chat']; ?>" value="<?php echo get_option('admin_site'); ?>" /> </td>
 	    </tr>        
 
 		<tr valign="top">
@@ -283,7 +283,7 @@ class Mini {
 
 	<tr valign="top">
         	<th scope="row"><?php _e('Custom Style', 'chatmini'); ?></th>
-        	<td><textarea name="style" rows="4" cols="50"><?php echo wp_kses(get_option('style'),''); ?></textarea><br /> <?php _e('For Advance use try chat_html hook', 'chatmini') ?></td>
+        	<td><textarea class="large-text code" aria-describedby="style-description" name="style" rows="4" cols="50"><?php echo wp_kses(get_option('style'),''); ?></textarea><br /> <p class="description" id="style-description"><?php _e('For Advance use try chat_html hook', 'chatmini') ?></p></td>
         </tr>
 
     </table>
