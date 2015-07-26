@@ -81,7 +81,7 @@ Yes!!! it's a Jabber/XMPP server, you see [here](http://chatme.im/prima-connessi
 == Changelog ==
 
 = 4.3.7 =
-* Arial Tag
+* Aria Tag
 
 = 4.3.6 =
 * add priority options
@@ -294,7 +294,7 @@ Yes!!! it's a Jabber/XMPP server, you see [here](http://chatme.im/prima-connessi
 == Upgrade Notice ==
 
 = 4.3.7 =
-* Arial Tag
+* Aria Tag
 
 = 4.3.6 =
 * add priority options
