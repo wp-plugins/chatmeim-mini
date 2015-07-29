@@ -33,6 +33,7 @@ class Mini {
 			'mini_error_link' 	    => 'http://chatme.im/forums/?chatmeim-mini',
 			'mini_disable_mobile' 	=> 'false',
 			'priority'		=> 1,
+			'open_passwords'	=> '',
 			);
         
     public function __construct() {
@@ -46,7 +47,7 @@ class Mini {
     
     function chatme_mini_init() {
         $plugin_dir = basename(dirname(__FILE__));
-        load_plugin_textdomain( 'chatmini', null, $plugin_dir . $this->default['language_dir'] );
+        load_plugin_textdomain( 'chatmini', false, $plugin_dir . $this->default['language_dir'] );
     }
 
     function add_action_chatme_mini_links ( $links ) {
@@ -87,6 +88,7 @@ class Mini {
 				'icon' 			=> esc_url(get_option('icon')),	
 				'mini_disable_mobile' 	=> esc_html(get_option('mini_disable_mobile')),	
 				'priority'		=> esc_html(get_option('priority')),
+				'open_passwords'	=> wp_kses(get_option('open_passwords'),''),
 						);
 						
 		foreach( $setting as $k => $settings )
@@ -139,6 +141,7 @@ class Mini {
 
                 groupchat: {
                     open: ["%s"],
+		    open_passwords: ["%s"],
                     suggest: ["piazza@conference.chatme.im","support@conference.chatme.im"],
                 },
             },
@@ -161,7 +164,8 @@ class Mini {
 			$actual['mini_error_link'],
 			$actual['nickname'],
 			$actual['adminjid'],
-			$actual['default_room']
+			$actual['default_room'],
+			$actual['open_passwords']
 		);
     }
     return apply_filters( 'chat_html', $chat );
@@ -186,7 +190,8 @@ class Mini {
         register_setting('mini_chat', 'style');
         register_setting('mini_chat', 'icon'); 
         register_setting('mini_chat', 'mini_disable_mobile');     
-        register_setting('mini_chat', 'priority');     
+        register_setting('mini_chat', 'priority');   
+        register_setting('mini_chat', 'open_passwords');   
     }
 
     function chatme_mini_options() {
@@ -233,6 +238,11 @@ class Mini {
 		<tr valign="top">
         <th scope="row"><?php _e("Chat rooms to join (if any)", 'chatmini'); ?></th>
         <td><input class="regular-text" type="text" name="join_groupchats" placeholder="<?php _e("piazza@conference.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('join_groupchats'); ?>" /></td>
+        </tr>
+
+		<tr valign="top">
+        <th scope="row"><?php _e("Chat rooms password", 'chatmini'); ?></th>
+        <td><input aria-describedby="open_passwords-description" class="regular-text" type="password" name="open_passwords" placeholder="<?php _e("Chat Room Password", 'chatmini'); ?>" value="<?php echo wp_kses(get_option('open_passwords'),''); ?>" /><p class="description" id="open_passwords-description"><?php _e("The password of Chat Room, please attention the password is visible in HTML code ", 'chatmini'); ?></td>
         </tr>
         
         <tr valign="top">
