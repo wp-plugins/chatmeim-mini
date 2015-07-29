@@ -3,7 +3,7 @@
 Plugin Name: ChatMe Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress.
-Version: 4.3.8
+Version: 4.3.9
 Author: camaran
 Author URI: http://www.chatme.im
 Text Domain: chatmini
@@ -209,59 +209,59 @@ class Mini {
     <table class="form-table">
 
 		<tr valign="top">
-        <th scope="row"><?php _e("Insert a custom Jappix Installation url", 'chatmini'); ?></th>
-        <td><input class="regular-text" aria-describedby="custom-description" type="url" size="50" name="custom" placeholder="<?php _e("https://webchat.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom'); ?>" /> /server/get.php...<p class="description" id="custom-description"><?php _e("Insert your Jappix installation URL", 'chatmini'); ?></p></td>
+        <th scope="row"><label for="custom"><?php _e("Insert a custom Jappix Installation url", 'chatmini'); ?></label></th>
+        <td><input class="regular-text" aria-describedby="custom-description" type="url" size="50" id="custom" name="custom" placeholder="<?php _e("https://webchat.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom'); ?>" /> /server/get.php...<p class="description" id="custom-description"><?php _e("Insert your Jappix installation URL", 'chatmini'); ?></p></td>
         </tr>
 
 		<tr valign="top">
-        <th scope="row"><?php _e("Insert your custom anonymous server", 'chatmini'); ?></th>
-        <td><input class="regular-text" type="text" name="custom-server" placeholder="<?php _e("anonymous.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom-server'); ?>" /></td>
+        <th scope="row"><label for="custom-server"><?php _e("Insert your custom anonymous server", 'chatmini'); ?></label></th>
+        <td><input class="regular-text" type="text" id="custom-server" name="custom-server" placeholder="<?php _e("anonymous.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('custom-server'); ?>" /></td>
         </tr>
             
         <tr valign="top">
-        <th scope="row"><?php _e("Auto login to the account", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="auto_login" value="true" <?php checked('true', get_option('auto_login')); ?> /></td>
+        <th scope="row"><label for="auto_login"><?php _e("Auto login to the account", 'chatmini'); ?></label></th>
+        <td><input type="checkbox" id="auto_login" name="auto_login" value="true" <?php checked('true', get_option('auto_login')); ?> /></td>
         </tr>
 		
 		<tr valign="top">
-        <th scope="row"><?php _e("Auto show the opened chat", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="auto_show" value="true" <?php checked('true', get_option('auto_show')); ?> /></td>
+        <th scope="row"><label for="auto_show"><?php _e("Auto show the opened chat", 'chatmini'); ?></label></th>
+        <td><input type="checkbox" id="auto_show" name="auto_show" value="true" <?php checked('true', get_option('auto_show')); ?> /></td>
         </tr>
 
 		<tr valign="top">
-        <th scope="row"><?php _e("Display an animated image when the user is not connected", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="animate" value="true" <?php checked('true', get_option('animate')); ?> /><br />
+        <th scope="row"><label for="animate"><?php _e("Display an animated image when the user is not connected", 'chatmini'); ?></label></th>
+        <td><input type="checkbox" id="animate" name="animate" value="true" <?php checked('true', get_option('animate')); ?> /><br />
 	<input class="regular-text" aria-describedby="animate-description" type="url" size="50" name="icon" placeholder="<?php _e("Custom Icon URL", 'chatmini'); ?>" value="<?php echo get_option('icon'); ?>" /><p class="description" id="animate-description"><?php _e("Insert your custom icon url, default: https://webchat.chatme.im/app/images/sprites/animate.png size: 80x74 px", 'chatmini'); ?></p>
 	</td>
         </tr>
 		
 		<tr valign="top">
-        <th scope="row"><?php _e("Chat rooms to join (if any)", 'chatmini'); ?></th>
-        <td><input class="regular-text" type="text" name="join_groupchats" placeholder="<?php _e("piazza@conference.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('join_groupchats'); ?>" /></td>
+        <th scope="row"><label for="join_groupchats"><?php _e("Chat rooms to join (if any)", 'chatmini'); ?></label></th>
+        <td><input aria-describedby="join_groupchats-description" class="regular-text" type="text" id="join_groupchats" name="join_groupchats" placeholder="<?php _e("piazza@conference.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('join_groupchats'); ?>" /><p class="description" id="join_groupchats-description"><?php _e('For create a Chat Room use Desktop <a href="http://chatme.im/elenco-client/" target="_blank">Client</a> or go to <a href="https://conference.chatme.im" target="_blank">Here.</a>', 'chatmini'); ?></p></td>
         </tr>
 
 		<tr valign="top">
-        <th scope="row"><?php _e("Chat rooms password", 'chatmini'); ?></th>
-        <td><input aria-describedby="open_passwords-description" class="regular-text" type="password" name="open_passwords" placeholder="<?php _e("Chat Room Password", 'chatmini'); ?>" value="<?php echo wp_kses(get_option('open_passwords'),''); ?>" /><p class="description" id="open_passwords-description"><?php _e("The password of Chat Room, please attention the password is visible in HTML code ", 'chatmini'); ?></td>
+        <th scope="row"><label for="open_passwords"><?php _e("Chat rooms password", 'chatmini'); ?></label></th>
+        <td><input aria-describedby="open_passwords-description" class="regular-text" type="password" id="open_passwords" name="open_passwords" placeholder="<?php _e("Chat Room Password", 'chatmini'); ?>" value="<?php echo wp_kses(get_option('open_passwords'),''); ?>" /><p class="description" id="open_passwords-description"><?php _e("The password of Chat Room, please attention the password is visible in HTML code ", 'chatmini'); ?></p></td>
         </tr>
         
         <tr valign="top">
-	    <th scope="row"><?php _e("Chat with site admin", 'chatmini'); ?></th>
-	    <td><input class="regular-text" type="text" name="admin_site" placeholder="<?php _e("admin", 'chatmini'); ?><?php echo $this->default['chat']; ?>" value="<?php echo get_option('admin_site'); ?>" /> </td>
+	    <th scope="row"><label for="admin_site"><?php _e("Chat with site admin", 'chatmini'); ?></label></th>
+	    <td><input class="regular-text" type="text" id="admin_site" name="admin_site" placeholder="<?php _e("admin", 'chatmini'); ?><?php echo $this->default['chat']; ?>" value="<?php echo get_option('admin_site'); ?>" /> </td>
 	    </tr>        
 
 		<tr valign="top">
-        <th scope="row"><?php _e("Available only for logged users", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="all" value="true" <?php checked('true', get_option('all')) ?> /></td>
+        <th scope="row"><label for="all"><?php _e("Available only for logged users", 'chatmini'); ?></label></th>
+        <td><input type="checkbox" id="all" name="all" value="true" <?php checked('true', get_option('all')) ?> /></td>
         </tr>
 
 		<tr valign="top">
-        <th scope="row"><?php _e("Hide for mobile user", 'chatmini'); ?></th>
-        <td><input type="checkbox" name="mini_disable_mobile" value="true" <?php checked('true', get_option('mini_disable_mobile')) ?> /></td>
+        <th scope="row"><label for="mini_disable_mobile"><?php _e("Hide for mobile user", 'chatmini'); ?></label></th>
+        <td><input type="checkbox" id="mini_disable_mobile" name="mini_disable_mobile" value="true" <?php checked('true', get_option('mini_disable_mobile')) ?> /></td>
         </tr>
 
         <tr valign="top">
-        <th scope="row"><?php _e("Priority", 'chatmini'); ?></th>
+        <th scope="row"><label for="priority"><?php _e("Priority", 'chatmini'); ?></label></th>
         <td>
         	<select id="priority" name="priority">
         		<option value="1" <?php selected('1', get_option('priority')); ?>><?php _e("Low", 'chatmini'); ?></option>
@@ -272,7 +272,7 @@ class Mini {
         </tr>
 
         <tr valign="top">
-        <th scope="row"><?php _e("Mini Jappix language", 'chatmini'); ?></th>
+        <th scope="row"><label for="language"><?php _e("Mini Jappix language", 'chatmini'); ?></label></th>
         <td>
         <select id="language" name="language">
         <option value="de" <?php selected('de', get_option('language')); ?>><?php _e("Deutsch", 'chatmini'); ?></option>
@@ -292,8 +292,8 @@ class Mini {
         </tr>
 
 	<tr valign="top">
-        	<th scope="row"><?php _e('Custom Style', 'chatmini'); ?></th>
-        	<td><textarea class="large-text code" aria-describedby="style-description" name="style" rows="4" cols="50"><?php echo wp_kses(get_option('style'),''); ?></textarea><br /> <p class="description" id="style-description"><?php _e('For Advance use try chat_html hook', 'chatmini') ?></p></td>
+        	<th scope="row"><label for="style"><?php _e('Custom Style', 'chatmini'); ?></label></th>
+        	<td><textarea class="large-text code" aria-describedby="style-description" id="style" name="style" rows="4" cols="50"><?php echo wp_kses(get_option('style'),''); ?></textarea><br /> <p class="description" id="style-description"><?php _e('For Advance use try chat_html hook', 'chatmini') ?></p></td>
         </tr>
 
     </table>
