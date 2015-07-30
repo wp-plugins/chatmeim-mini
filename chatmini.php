@@ -59,9 +59,15 @@ class Mini {
           	$screen = get_current_screen();
 
           	$screen->add_help_tab( array(
-              	      	'id'		=> 'chatme_mini_help_tab_2',
+              	      	'id'		=> 'chatme_mini_help_tab_1',
               	      	'title'		=> __('anonymous server', 'chatmini'),
               	      	'content'	=> '<p>' . __( 'The anonymous server of your XMPP service, default: anonymous.chatme.im', 'chatmini' ) . '</p>',
+          	      	) );
+
+          	$screen->add_help_tab( array(
+              	      	'id'		=> 'chatme_mini_help_tab_2',
+              	      	'title'		=> __('Chat rooms password', 'chatmini'),
+              	      	'content'	=> '<p>' . __( 'This is the password of chat room where the user enter when click the chat button, remeber that <b>password is visble in HTML code</b> of page and <b>it is not possible to hide it.</b>', 'chatmini' ) . '</p>',
           	      	) );
 
           	$screen->set_help_sidebar(
@@ -200,7 +206,7 @@ class Mini {
     }
 ?>
  <div class="wrap">
-<h2>ChatMe Mini</h2>
+<h1>ChatMe Mini</h1>
 <p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'chatmini'); ?> - <?php _e('<a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a>', 'chatmini'); ?></p>
 <p><?php _e("For subscribe your account visit <a href='http://chatme.im/servizi/domini-disponibili/' target='_blank'>http://chatme.im/servizi/domini-disponibili/</a>", 'chatmini'); ?></p>
 
@@ -298,9 +304,10 @@ class Mini {
 
     </table>
     <?php submit_button(); ?>
+    </form>
     <p><?php _e('For Ever request you can use our <a href="http://chatme.im/forums" target="_blank">forum</a>', 'chatmini') ?></p>
 
-</form>
+<h3 class="title"><?php _e('Donation', 'chatmini') ?></h3>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="8CTUY8YDK5SEL">
