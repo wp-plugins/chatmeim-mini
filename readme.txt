@@ -80,7 +80,7 @@ Yes!!! it's a Jabber/XMPP server, you see [here](http://chatme.im/prima-connessi
 
 == Changelog ==
 
-= 5.0.1=
+= 5.0.1 =
 * Bug fix
 
 = 5.0 =
@@ -307,7 +307,7 @@ Yes!!! it's a Jabber/XMPP server, you see [here](http://chatme.im/prima-connessi
 
 == Upgrade Notice ==
 
-= 5.0.1=
+= 5.0.1 =
 * Bug fix
 
 = 5.0 =
