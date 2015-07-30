@@ -237,7 +237,7 @@ class Mini {
 		
 		<tr valign="top">
         <th scope="row"><label for="join_groupchats"><?php _e("Chat rooms to join (if any)", 'chatmini'); ?></label></th>
-        <td><input aria-describedby="join_groupchats-description" class="regular-text" type="text" id="join_groupchats" name="join_groupchats" placeholder="<?php _e("piazza@conference.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('join_groupchats'); ?>" /><p class="description" id="join_groupchats-description"><?php _e('For create a Chat Room use Desktop <a href="http://chatme.im/elenco-client/" target="_blank">Client</a> or go to <a href="https://conference.chatme.im" target="_blank">Here.</a>', 'chatmini'); ?></p></td>
+        <td><input aria-describedby="join_groupchats-description" class="regular-text" type="text" id="join_groupchats" name="join_groupchats" placeholder="<?php _e("piazza@conference.chatme.im", 'chatmini'); ?>" value="<?php echo get_option('join_groupchats'); ?>" /><p class="description" id="join_groupchats-description"><?php _e('For create a Chat Room use Desktop <a href="http://chatme.im/elenco-client/" target="_blank">Client</a> or go to <a href="https://conference.chatme.im/chat.php" target="_blank">Here.</a>', 'chatmini'); ?></p></td>
         </tr>
 
 		<tr valign="top">
