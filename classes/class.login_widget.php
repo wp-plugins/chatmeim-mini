@@ -38,7 +38,7 @@ class chatme_login_Widget extends WP_Widget {
 		echo '  <form method="get" action="https://webchat.chatme.im" target="_blank">';
 			echo '  <li>' . __('Username', 'chatmini') . '<input type="email" name="u" placeholder="user@host" required="" /></li>';
 			echo '  <li>' . __('Password', 'chatmini') . '<input type="password" name="q" required="" placeholder="Password" /><input type="hidden" name="h" value="1"></li>';
-			echo '  <li><button type="submit" formtarget="_blank">' . __('Entra in chat', 'chatmini') . '</button></li>';
+			echo '  <li><button type="submit" formtarget="_blank">' . __('Login to Chat', 'chatmini') . '</button></li>';
 		echo '  </form>';
 		
 		echo '</ul>';
