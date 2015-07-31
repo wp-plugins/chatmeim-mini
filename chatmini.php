@@ -80,6 +80,7 @@ class ChatMe {
 spl_autoload_register(function () {
 	require_once( 'classes/class.chatmini.php' );
 	require_once( 'classes/class.shortcode.php' );
+	require_once( 'classes/class.login_widget.php' );
 });
 new ChatMe;
 ?>
