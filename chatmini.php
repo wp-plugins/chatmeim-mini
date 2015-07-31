@@ -3,7 +3,7 @@
 Plugin Name: ChatMe Mini
 Plugin URI: http://www.chatme.im/
 Description: This plugin add the javascript code for ChatMe Mini a Jabber/XMPP group chat for your WordPress. Also add ChatMe Shortcode and Widget for more chat integrations.
-Version: 5.0.2
+Version: 5.1.0
 Author: camaran
 Author URI: http://www.chatme.im
 Text Domain: chatmini
