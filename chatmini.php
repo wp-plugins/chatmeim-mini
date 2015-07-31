@@ -73,7 +73,7 @@ class ChatMe {
     }
 
     function add_action_chatme_mini_links ( $links ) {
-    	$mylinks = array( '<br /><a href="' . admin_url( 'options-general.php?page=' . $this->default['plugin_options_key'] ) . '">' . __( 'Settings', 'chatmini' ) . '</a>', '<a href="' . admin_url( 'options-general.php?page=' . $this->default['plugin_options_short'] ) . '">' . __( 'Shortcode', 'chatmini' ) . '</a>', );
+    	$mylinks = array( '<a href="' . admin_url( 'options-general.php?page=' . $this->default['plugin_options_key'] ) . '">' . __( 'Settings', 'chatmini' ) . '</a>', '<a href="' . admin_url( 'options-general.php?page=' . $this->default['plugin_options_short'] ) . '">' . __( 'Shortcode', 'chatmini' ) . '</a>', );
     	return array_merge( $links, $mylinks );
     }
 }
