@@ -85,10 +85,10 @@ class ChatMe {
 
 	function chatme_admin_init() {
 	//register our settings
-		register_setting('chatme', 'mini');
-		register_setting('chatme', 'shortcode');
-		register_setting('chatme', 'login');
-		register_setting('chatme', 'status');
+		register_setting('mini_chat', 'mini');
+		register_setting('mini_chat', 'shortcode');
+		register_setting('mini_chat', 'login');
+		register_setting('mini_chat', 'status');
 
 		}
 
