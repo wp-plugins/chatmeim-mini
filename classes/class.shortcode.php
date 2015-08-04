@@ -17,7 +17,7 @@ class ShortCodes extends ChatMe {
 	}
 	
 	function chatme_shortcode_menu() {
-  		$my_admin_page = add_options_page( __('ChatMe Shortocode Help', 'chatmini'), __('ChatMe Shortcode Help', 'chatmini'), 'manage_options', $this->default['plugin_options_short'], array($this, 'mini_shortcode_help') );
+  		$my_admin_page = add_submenu_page('chatme-page',  __('ChatMe Shortocode Help', 'chatmini'), __('ChatMe Shortcode Help', 'chatmini'), 'manage_options', $this->default['plugin_options_short'], array($this, 'mini_shortcode_help') );
 	}
 	
 function mini_shortcode_help() {

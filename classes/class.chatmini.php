@@ -131,7 +131,7 @@ class Mini extends ChatMe {
 	}
 
     function chatme_mini_admin_menu() {
-        $my_admin_page = add_options_page( __('ChatMe Mini Options', 'chatmini'), __('ChatMe Mini', 'chatmini'), 'manage_options', $this->default['plugin_options_key'], array($this, 'chatme_mini_options') );
+        $my_admin_page = add_submenu_page('chatme-page',  __('ChatMe Mini Options', 'chatmini'), __('ChatMe Mini', 'chatmini'), 'manage_options', $this->default['plugin_options_key'], array($this, 'chatme_mini_options') );
         add_action('load-'.$my_admin_page, array( $this, 'chatme_mini_add_help_tab') );
     }
 
@@ -150,7 +150,7 @@ class Mini extends ChatMe {
         register_setting('mini_chat', 'icon'); 
         register_setting('mini_chat', 'mini_disable_mobile');     
         register_setting('mini_chat', 'priority');   
-        register_setting('mini_chat', 'open_passwords');   
+        register_setting('mini_chat', 'open_passwords');  
     }
 
     function chatme_mini_options() {
@@ -162,6 +162,8 @@ class Mini extends ChatMe {
 <h1>ChatMe Mini</h1>
 <p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'chatmini'); ?> - <?php _e('<a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a>', 'chatmini'); ?></p>
 <p><?php _e("For subscribe your account visit <a href='http://chatme.im/servizi/domini-disponibili/' target='_blank'>http://chatme.im/servizi/domini-disponibili/</a>", 'chatmini'); ?></p>
+
+<?php settings_errors(); ?>
 
 <form method="post" action="options.php">
     <?php settings_fields( 'mini_chat' ); ?>

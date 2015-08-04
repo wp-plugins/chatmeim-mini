@@ -63,7 +63,9 @@ class ChatMe {
     public function __construct() {
 
 		add_filter('plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_action_chatme_mini_links') );
-		add_action('init',          array( $this, 'chatme_mini_init') );
+		add_action('init',          	array( $this, 'chatme_mini_init') );
+		add_action('admin_menu', 	array( $this, 'chatme_menu') );
+		add_action('admin_init',    array( $this, 'chatme_admin_init') );
 
 	}
 
@@ -73,15 +75,75 @@ class ChatMe {
     }
 
     function add_action_chatme_mini_links ( $links ) {
-    	$mylinks = array( '<a href="' . admin_url( 'options-general.php?page=' . $this->default['plugin_options_key'] ) . '">' . __( 'Settings', 'chatmini' ) . '</a>', '<a href="' . admin_url( 'options-general.php?page=' . $this->default['plugin_options_short'] ) . '">' . __( 'Shortcode', 'chatmini' ) . '</a>', );
+    	$mylinks = array( '<a href="' . admin_url( 'admin.php?page=chatme-page' ) . '">' . __( 'Settings', 'chatmini' ) . '</a>', );
     	return array_merge( $links, $mylinks );
     }
+
+	function chatme_menu() {
+  		$my_admin_menu_page = add_menu_page( __('ChatMe', 'chatmini'), __('ChatMe', 'chatmini'), 'manage_options', 'chatme-page', array($this, 'chatme_admin'), 'dashicons-format-chat' );
+		}
+
+	function chatme_admin_init() {
+	//register our settings
+		register_setting('chatme', 'mini');
+		register_setting('chatme', 'shortcode');
+		register_setting('chatme', 'login');
+		register_setting('chatme', 'status');
+
+		}
+
+    function chatme_admin(){
+	    if (!current_user_can('manage_options'))  {
+    		wp_die( __('You do not have sufficient permissions to access this page.', 'chatmini') );
+    	}
+    ?>
+    
+        <div class="wrap">
+		<h2>ChatMe</h2>
+		<p><?php _e('<a href="http://chatme.im" target="_blank">www.chatme.im</a>', 'chatmini'); ?></p>
+		<p><?php _e('In this page you can enable plugin modules', 'chatmini'); ?></p>
+		<?php settings_errors(); ?>
+		<form method="post" action="options.php">
+    			<?php settings_fields( 'chatme' ); ?>
+			<table class="form-table">
+				<tr valign="top">
+					<th scope="row"><label for="mini"><?php _e('Enable ChatMe Mini', 'chatmini'); ?></label></th>
+					<td><input type="checkbox" id="mini" name="mini" value="true" <?php checked('true', get_option('mini')); ?> /></td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="shortcode"><?php _e('Enable ChatMe Shortcode', 'chatmini'); ?></label></th>
+					<td><input type="checkbox" id="shortcode" name="shortcode" value="true" <?php checked('true', get_option('shortcode')); ?> /></td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="login"><?php _e('Enable Login Widget', 'chatmini'); ?></label></th>
+					<td><input type="checkbox" id="login" name="login" value="true" <?php checked('true', get_option('login')); ?> /></td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="status"><?php _e('Enable Status Widget', 'chatmini'); ?></label></th>
+					<td><input type="checkbox" id="status" name="status" value="true" <?php checked('true', get_option('status')); ?> /></td>
+				</tr>
+			</table>
+			<?php submit_button(); ?>
+		</form>
+	</div>
+        
+    <?php    
+    }
+    
 }
 spl_autoload_register(function () {
-	require_once( 'classes/class.chatmini.php' );
-	require_once( 'classes/class.shortcode.php' );
-	require_once( 'classes/class.login_widget.php' );
-	require_once( 'classes/class.status_widget.php' );
+	if (get_option('mini'))  {
+		require_once( 'classes/class.chatmini.php' );
+	}
+	if (get_option('shortcode'))  {
+		require_once( 'classes/class.shortcode.php' );
+	}
+	if (get_option('login'))  {
+		require_once( 'classes/class.login_widget.php' );
+	}
+	if (get_option('status'))  {
+		require_once( 'classes/class.status_widget.php' );
+	}
 });
 new ChatMe;
 ?>
