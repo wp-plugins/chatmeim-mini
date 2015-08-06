@@ -15,12 +15,39 @@ class ShortCodes extends ChatMe {
 			);
 		return $core;
 	}
+
+	protected function get_hash($nome, $hash=null) {
+		return substr('chatmini_' . $nome . '_cache_' . md5( $hash ), 0, 45 );
+	}
+
+	protected function cache($data, $atts = '', $nome, $time, $enable = 'off') {	
+		switch ($enable) {
+			case "transient":
+				$hash = $this->get_hash($nome, serialize($atts) );
+				$cache = get_transient( $hash ); 
+				if ( $cache === false ){
+					$cache = $data;
+					set_transient( $hash, $data, $time );
+				}
+				return $cache;
+    			case "cache":
+				$hash = $this->get_hash($nome, serialize($atts) );
+				$cache = wp_cache_get( $hash, 'chatmini' ); 
+				if ( $cache === false ){
+					$cache = $data;
+					wp_cache_set( $hash, $data, 'chatmini', $time );
+				}
+				return $cache;                
+			case "off";
+				return $data;
+		}
+	}
 	
 	function chatme_shortcode_menu() {
   		$my_admin_page = add_submenu_page('chatme-page',  __('ChatMe Shortocode Help', 'chatmini'), __('ChatMe Shortcode Help', 'chatmini'), 'manage_options', $this->default['plugin_options_short'], array($this, 'mini_shortcode_help') );
 	}
 	
-function mini_shortcode_help() {
+    function mini_shortcode_help() {
   		if (!current_user_can('manage_options'))  {
     	wp_die( __('You do not have sufficient permissions to access this page.', 'chatmeim-mini-messenger') );
   		} 
@@ -59,11 +86,12 @@ function mini_shortcode_help() {
                 
             $link = ((bool)$atts['link']) ? ' <a href="xmpp:'. $atts['user'] . '" title="Chatta con ' . $atts['user'] . '">' . $atts['user'] . '</a>' : '';
             
-            if ((bool)$atts['hosted']) {
-		        return  '<img src="' . $this->default['domains_status'] . $atts['user'] . '" alt="Status">' . $link;
-            } else {
-		        return '<img src="' . $this->default['status'] . $atts['user'] . '" alt="Status">' . $link;		
-            }
+            	if ((bool)$atts['hosted']) {
+		            $data =  '<img src="' . $this->default['domains_status'] . $atts['user'] . '" alt="Status">' . $link;
+            	} else {
+		            $data = '<img src="' . $this->default['status'] . $atts['user'] . '" alt="Status">' . $link;		
+            	}
+		    return $this->cache($data, $atts, 'userStatus', $this->default['cache_time_fast']);
 	    }	
 	
     //Chat Room [chatRoom anon="1"]	
@@ -76,46 +104,50 @@ function mini_shortcode_help() {
                 
 		    if (!(bool)$atts['anon'])  {	
                 
-		    return '<form method="get" action="' . $this->default['muc_url'] . '" target="_blank" class="form-horizontal">
-            	    <select name="room">
-					    ' . $this->default['room'] . '
-				    </select>
-                <button type="submit">Entra nella stanza</button>
-            </form> ';
+		    $data = '<form method="get" action="' . $this->default['muc_url'] . '" target="_blank" class="form-horizontal">
+            	        <select name="room">
+					        ' . $this->default['room'] . '
+				        </select>
+                    <button type="submit">Entra nella stanza</button>
+                    </form> ';
 		    } else {
                 
-		    return '<form method="get" action="' . $this->default['jappix_url'] . '" target="_blank">
-            	    <select name="r">
-					    ' . $this->default['room'] . '
-				    </select>
+		    $data = '<form method="get" action="' . $this->default['jappix_url'] . '" target="_blank">
+            	        <select name="r">
+					        ' . $this->default['room'] . '
+				        </select>
     			    <input type="text" name="n" placeholder="Nickname" autocomplete="off">
-        	    <button type="submit">Entra nella stanza</button>
-            </form> ';
+        	        <button type="submit">Entra nella stanza</button>
+                    </form> ';
 		    }
+            return $this->cache($data, $atts, 'chatRoom', $this->default['cache_time_long']);
 	    }
 
     //Iframe Chat Room [chatRoomIframe room="room" width="width" height="height"]
     function chatRoomIframe_short($atts)
 	    {	
 		    $defaults = array(
-			    'room' 		=> $this->default['chatRoomIframe_room'],
-			    'width' 	=> $this->default['chatRoomIframe_width'],
-			    'height' 	=> $this->default['chatRoomIframe_height'],
-			    'hosted' 	=> $this->default['chatRoomIframe_hosted'],
-				'powered' 	=> $this->default['chatRoomIframe_powered'],
+			    	'room' 		=> $this->default['chatRoomIframe_room'],
+			    	'width' 	=> $this->default['chatRoomIframe_width'],
+			    	'height' 	=> $this->default['chatRoomIframe_height'],
+			    	'hosted' 	=> $this->default['chatRoomIframe_hosted'],
+				    'powered' 	=> $this->default['chatRoomIframe_powered'],
 			    );
-                $atts = shortcode_atts( $defaults, $atts );
+            $atts = shortcode_atts( $defaults, $atts );
                 
-				$chat_url = ((bool)$atts['hosted']) ? $this->default['chat_domains'] : $this->default['jappix_url'];
-				$powered = ((bool)$atts['powered']) ? $this->default['chat_powered'] : '';
+		    $chat_url = ((bool)$atts['hosted']) ? $this->default['chat_domains'] : $this->default['jappix_url'];
+		    $powered = ((bool)$atts['powered']) ? $this->default['chat_powered'] : '';
 				
-				return '<div class="cm-iframe-room"><iframe src="' . $chat_url . '/?r='. $atts['room'] . $this->default['conference_domain'] . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" border="0">Il tuo browser non supporta iframe</iframe>' . $powered . '</div>';		
+		    $data = '<div class="cm-iframe-room"><iframe src="' . $chat_url . '/?r='. $atts['room'] . $this->default['conference_domain'] . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" border="0">Il tuo browser non supporta iframe</iframe>' . $powered . '</div>';	
+
+		    return $this->cache($data, $atts, 'chatRoomIframe', $this->default['cache_time_long']);	
 	    }
 
     //Internet Swatch Time [swatchTime]
     function swatchTime_short()
 	    {	
-		return "Internet Swatch Time <strong>@" . date('B') . "</strong>";
+		    $data = "Internet Swatch Time <strong>@" . date('B') . "</strong>";
+		    return $data;
 	    }
 
     //Registro tutti gli shortcode della classe

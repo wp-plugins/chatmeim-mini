@@ -44,6 +44,9 @@ class ChatMe {
     		'domains_status'     	    => "http://webchat.domains/status/",
     		'status' 				    => "http://webchat.chatme.im/status/",
     		'chat_powered' 			    => '<div><small>Chat powered by <a href="http://chatme.im" target="_blank">ChatMe</a></small></div>',  
+            'cache_time'        		=> DAY_IN_SECONDS,
+            'cache_time_fast'		    => HOUR_IN_SECONDS,
+            'cache_time_long'		    => WEEK_IN_SECONDS,
             //Default Variables
             //userStatus
         	'userStatus_user'           => 'admin@chatme.im',
@@ -65,7 +68,7 @@ class ChatMe {
 		add_filter('plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_action_chatme_mini_links') );
 		add_action('init',          	array( $this, 'chatme_mini_init') );
 		add_action('admin_menu', 	array( $this, 'chatme_menu') );
-		add_action('admin_init',    array( $this, 'chatme_admin_init') );
+		add_action('admin_init',    	array( $this, 'chatme_admin_init') );
 
 	}
 
@@ -104,7 +107,7 @@ class ChatMe {
 		<p><?php _e('In this page you can enable plugin modules', 'chatmini'); ?></p>
 		<?php settings_errors(); ?>
 		<form method="post" action="options.php">
-    			<?php settings_fields( 'chatme' ); ?>
+    			<?php settings_fields( 'mini_chat' ); ?>
 			<table class="form-table">
 				<tr valign="top">
 					<th scope="row"><label for="mini"><?php _e('Enable ChatMe Mini', 'chatmini'); ?></label></th>
