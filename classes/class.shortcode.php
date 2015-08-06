@@ -84,12 +84,12 @@ class ShortCodes extends ChatMe {
 			    );
             $atts = shortcode_atts( $defaults, $atts );    
                 
-            $link = ((bool)$atts['link']) ? ' <a href="xmpp:'. $atts['user'] . '" title="Chatta con ' . $atts['user'] . '">' . $atts['user'] . '</a>' : '';
+            $link = ((bool)$atts['link']) ? ' <a href="xmpp:'. $atts['user'] . '" title="' . __('Chat with ', 'chatmini') . $atts['user'] . '">' . $atts['user'] . '</a>' : '';
             
             	if ((bool)$atts['hosted']) {
-		            $data =  '<img src="' . $this->default['domains_status'] . $atts['user'] . '" alt="Status">' . $link;
+		            $data =  '<img src="' . $this->default['domains_status'] . $atts['user'] . '" alt="' .  __('Status', 'chatmini') . '">' . $link;
             	} else {
-		            $data = '<img src="' . $this->default['status'] . $atts['user'] . '" alt="Status">' . $link;		
+		            $data = '<img src="' . $this->default['status'] . $atts['user'] . '" alt="' .  __('Status', 'chatmini') . '">' . $link;		
             	}
 		    return $this->cache($data, $atts, 'userStatus', $this->default['cache_time_fast']);
 	    }	
@@ -108,7 +108,7 @@ class ShortCodes extends ChatMe {
             	        <select name="room">
 					        ' . $this->default['room'] . '
 				        </select>
-                    <button type="submit">Entra nella stanza</button>
+                    <button type="submit">' .  __('Login to the Group', 'chatmini') . '</button>
                     </form> ';
 		    } else {
                 
@@ -116,8 +116,8 @@ class ShortCodes extends ChatMe {
             	        <select name="r">
 					        ' . $this->default['room'] . '
 				        </select>
-    			    <input type="text" name="n" placeholder="Nickname" autocomplete="off">
-        	        <button type="submit">Entra nella stanza</button>
+    			    <input type="text" name="n" placeholder="' .  __('NickName', 'chatmini') . '" autocomplete="off">
+        	        <button type="submit">' .  __('Login to the Group', 'chatmini') . '</button>
                     </form> ';
 		    }
             return $this->cache($data, $atts, 'chatRoom', $this->default['cache_time_long']);
@@ -138,7 +138,7 @@ class ShortCodes extends ChatMe {
 		    $chat_url = ((bool)$atts['hosted']) ? $this->default['chat_domains'] : $this->default['jappix_url'];
 		    $powered = ((bool)$atts['powered']) ? $this->default['chat_powered'] : '';
 				
-		    $data = '<div class="cm-iframe-room"><iframe src="' . $chat_url . '/?r='. $atts['room'] . $this->default['conference_domain'] . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" border="0">Il tuo browser non supporta iframe</iframe>' . $powered . '</div>';	
+		    $data = '<div class="cm-iframe-room"><iframe src="' . $chat_url . '/?r='. $atts['room'] . $this->default['conference_domain'] . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" border="0">' .  __('The Browser not support iframe', 'chatmini') . '</iframe>' . $powered . '</div>';	
 
 		    return $this->cache($data, $atts, 'chatRoomIframe', $this->default['cache_time_long']);	
 	    }
@@ -146,7 +146,7 @@ class ShortCodes extends ChatMe {
     //Internet Swatch Time [swatchTime]
     function swatchTime_short()
 	    {	
-		    $data = "Internet Swatch Time <strong>@" . date('B') . "</strong>";
+		    $data = __('Internet Swatch Time', 'chatmini'). " <strong>@" . date('B') . "</strong>";
 		    return $data;
 	    }
 
