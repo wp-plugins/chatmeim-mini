@@ -110,20 +110,32 @@ class ChatMe {
     			<?php settings_fields( 'mini_chat' ); ?>
 			<table class="form-table">
 				<tr valign="top">
-					<th scope="row"><label for="mini"><?php _e('Enable ChatMe Mini', 'chatmini'); ?></label></th>
-					<td><input type="checkbox" id="mini" name="mini" value="true" <?php checked('true', get_option('mini')); ?> /></td>
+					<th scope="row"><?php _e('ChatMe Mini', 'chatmini'); ?></th>
+					<td>
+						<input type="checkbox" id="mini" name="mini" value="true" <?php checked('true', get_option('mini')); ?> /> <label for="mini"><?php _e('Enable ChatMe Mini Client', 'chatmini'); ?></label>
+						<p class="description"><?php _e('Enable ChatMe Mini client chat for use in your site', 'chatmini'); ?></p>
+					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="shortcode"><?php _e('Enable ChatMe Shortcode', 'chatmini'); ?></label></th>
-					<td><input type="checkbox" id="shortcode" name="shortcode" value="true" <?php checked('true', get_option('shortcode')); ?> /></td>
+					<th scope="row"><?php _e('ChatMe Shortcode', 'chatmini'); ?></th>
+					<td>
+						<input type="checkbox" id="shortcode" name="shortcode" value="true" <?php checked('true', get_option('shortcode')); ?> /> <label for="shortcode"><?php _e('Enable ChatMe Shortcode', 'chatmini'); ?></label>
+						<p class="description"><?php _e('Enable ChatMe Mini Shortcode for use in your post and page', 'chatmini'); ?></p>
+					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="login"><?php _e('Enable Login Widget', 'chatmini'); ?></label></th>
-					<td><input type="checkbox" id="login" name="login" value="true" <?php checked('true', get_option('login')); ?> /></td>
+					<th scope="row"><?php _e('Login Widget', 'chatmini'); ?></th>
+					<td>
+						<input type="checkbox" id="login" name="login" value="true" <?php checked('true', get_option('login')); ?> /> <label for="login"><?php _e('Enable ChatMe Login Widget', 'chatmini'); ?></label>
+						<p class="description"><?php _e('Enable Login Widget you can manage in <a href="widgets.php">Widget</a> Area', 'chatmini'); ?></p>
+					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="status"><?php _e('Enable Status Widget', 'chatmini'); ?></label></th>
-					<td><input type="checkbox" id="status" name="status" value="true" <?php checked('true', get_option('status')); ?> /></td>
+					<th scope="row"><?php _e('Status Widget', 'chatmini'); ?></th>
+					<td>
+						<input type="checkbox" id="status" name="status" value="true" <?php checked('true', get_option('status')); ?> /> <label for="status"><?php _e('Enable ChatMe Status Widget', 'chatmini'); ?></label>
+						<p class="description"><?php _e('Enable Status Widget you can manage in <a href="widgets.php">Widget</a> Area', 'chatmini'); ?></p>
+					</td>
 				</tr>
 			</table>
 			<?php submit_button(); ?>
